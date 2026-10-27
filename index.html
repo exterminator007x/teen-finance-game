@@ -62,6 +62,10 @@
           🔊
         </button>
 
+        <button onclick="openModal('modalShareInfo')" class="px-2.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs transition flex items-center gap-1 font-semibold">
+          📲 <span class="hidden sm:inline">QR ให้นักเรียน</span>
+        </button>
+
         <button onclick="goToHome()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs transition flex items-center gap-1">
           🏠 <span class="hidden sm:inline">หน้าแรก</span>
         </button>
@@ -605,17 +609,39 @@
   </div>
 
   <div id="modalShareInfo" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 shadow-2xl">
-      <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
-        <h3 class="font-bold text-white text-sm">💡 วิธีส่งให้นักเรียนเปิดเล่นเอง</h3>
-        <button onclick="closeModal('modalShareInfo')" class="text-slate-400 hover:text-white">✕</button>
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl text-center">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-2">
+        <h3 class="font-extrabold text-white text-base flex items-center gap-2">
+          <span>📲</span> สแกน QR Code เพื่อเปิดเล่น
+        </h3>
+        <button onclick="closeModal('modalShareInfo')" class="text-slate-400 hover:text-white text-lg">✕</button>
       </div>
-      <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-        <p>1. <strong>ในห้องคอมพิวเตอร์:</strong> คัดลอกไฟล์ <code class="text-amber-400">index.html</code> ใส่ไดรฟ์เครื่องนักเรียน แล้วดับเบิลคลิกเปิดบน Chrome หรือ Edge ได้ทันที 100% โดยไม่ต้องต่อเน็ต</p>
-        <p>2. <strong>บนมือถือ/แท็บเล็ต:</strong> ครูสามารถนำไฟล์นี้ไปอัปโหลดขึ้นเว็บโรงเรียน, GitHub Pages (ฟรี) หรือ Google Drive แล้วแปลงเป็น QR Code ให้นักเรียนสแกนเล่นในคาบได้เลย</p>
+      
+      <p class="text-xs text-slate-300 mb-4">
+        ให้นักเรียนใช้กล้องมือถือหรือแท็บเล็ตสแกน QR Code นี้เพื่อเข้าเล่นเกมได้ทันที:
+      </p>
+
+      <!-- Dynamic QR Code generated from Google Chart API / QR Server -->
+      <div class="bg-white p-3 rounded-2xl inline-block mb-4 shadow-lg">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://exterminator007x.github.io/teen-finance-game/" 
+             alt="QR Code สำหรับนักเรียน" class="w-48 h-48 block mx-auto">
       </div>
-      <div class="mt-4 flex justify-end">
-        <button onclick="closeModal('modalShareInfo')" class="px-4 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold">เข้าใจแล้ว</button>
+
+      <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between gap-2 text-xs mb-3">
+        <span class="text-amber-400 font-mono truncate text-[11px]">https://exterminator007x.github.io/teen-finance-game/</span>
+        <button onclick="navigator.clipboard.writeText('https://exterminator007x.github.io/teen-finance-game/'); alert('คัดลอกลิงก์เรียบร้อยแล้ว!');" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-semibold whitespace-nowrap text-[11px]">
+          คัดลอกลิงก์
+        </button>
+      </div>
+
+      <div class="text-[11px] text-slate-400 leading-relaxed mb-4 text-left">
+        💡 คุณครูสามารถฉายหน้านี้ขึ้นจอโปรเจกเตอร์หน้าห้องให้นักเรียนสแกนพร้อมกันได้เลย
+      </div>
+
+      <div class="flex justify-end">
+        <button onclick="closeModal('modalShareInfo')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">
+          ปิดหน้าต่าง
+        </button>
       </div>
     </div>
   </div>
