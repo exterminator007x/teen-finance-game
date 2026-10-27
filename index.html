@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ภารกิจเศรษฐีวัยรุ่น (Teen Tycoon: Finance Quest)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Prompt', sans-serif; }
+    @keyframes flipIn {
+      0% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+      100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+    }
+    .animate-flip-in { animation: flipIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.7); }
+    }
+    .gold-glow { animation: pulse-gold 2s infinite; }
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 999;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Global Header Bar -->
+  <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-4 py-3 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <button onclick="goToHome()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20 hover:scale-105 transition" title="กลับหน้าแรก">
+          💰
+        </button>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-base sm:text-lg leading-tight bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-400 bg-clip-text text-transparent">
+              ภารกิจเศรษฐีวัยรุ่น
+            </h1>
+            <span id="headerModeBadge" class="hidden px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold"></span>
+          </div>
+          <p class="text-xs text-slate-400">เกมจำลองการออม & การลงทุน สำหรับ ม.2 ใน 50 นาที</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Timer Widget (Teacher mode) -->
+        <div id="timerContainer" class="hidden items-center gap-1.5 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700">
+          <span class="text-xs sm:text-sm">⏱️</span>
+          <span id="timerText" class="font-mono font-bold text-amber-400 text-sm">01:00</span>
+          <button onclick="addTime(30)" class="text-[10px] px-1.5 py-0.5 bg-slate-700 hover:bg-slate-600 rounded text-slate-300">+30วิ</button>
+          <button onclick="toggleTimer()" id="timerBtn" class="text-xs px-2 py-0.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded font-medium">หยุด</button>
+        </div>
+
+        <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition text-sm">
+          🔊
+        </button>
+
+        <button onclick="goToHome()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs transition flex items-center gap-1">
+          🏠 <span class="hidden sm:inline">หน้าแรก</span>
+        </button>
+
+        <button onclick="openModal('modalTeacherGuide')" class="px-3 py-1.5 rounded-xl bg-indigo-600/90 hover:bg-indigo-600 text-white font-medium text-xs sm:text-sm transition flex items-center gap-1 shadow-sm">
+          📖 <span class="hidden sm:inline">คู่มือ</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewports -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 0: MODE SELECTION (หน้าเลือกว่าจะเล่นแบบไหน)       -->
+    <!-- ======================================================== -->
+    <section id="screenModeSelect" class="my-auto py-8 max-w-3xl mx-auto w-full text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs sm:text-sm font-medium mb-3">
+        ✨ เกมการเงินเพื่อการเรียนรู้สำหรับนักเรียนชั้น ม.2
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mb-3">
+        ยินดีต้อนรับสู่ <span class="text-amber-400">ภารกิจเศรษฐีวัยรุ่น</span>
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto mb-8">
+        จำลองชีวิตวัยเรียน 6 เทอม (ม.1 – ม.3) กับการบริหารเงินค่าขนม เผชิญเหตุฉุกเฉิน และสร้างพอร์ตการลงทุน
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-left mb-8">
+        
+        <!-- Option 1: Student Solo Mode -->
+        <div onclick="selectMode('solo')" class="group cursor-pointer bg-slate-900 hover:bg-slate-800/80 border-2 border-slate-800 hover:border-amber-400/80 rounded-3xl p-6 sm:p-7 shadow-xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
+              📱
+            </div>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-400 text-[11px] font-bold uppercase tracking-wider mb-2">
+              เล่นคนเดียวบนอุปกรณ์ตนเอง
+            </div>
+            <h3 class="text-xl font-extrabold text-white mb-2">โหมดนักเรียน (Student Mode)</h3>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+              นักเรียนเปิดเล่นบนมือถือ แท็บเล็ต หรือคอมพิวเตอร์ของตนเอง ตัดสินใจจัดสรรเงินเองทีละเทอม จบเกมรับผลวิเคราะห์ฉายาทางการเงิน (Financial Archetype)
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-amber-400 font-bold text-sm">
+            <span>เข้าเล่นเดี่ยวทันที</span>
+            <span>➔</span>
+          </div>
+        </div>
+
+        <!-- Option 2: Teacher GM Mode -->
+        <div onclick="selectMode('classroom')" class="group cursor-pointer bg-slate-900 hover:bg-slate-800/80 border-2 border-slate-800 hover:border-indigo-500/80 rounded-3xl p-6 sm:p-7 shadow-xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
+              👨‍🏫
+            </div>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-indigo-400/10 text-indigo-400 text-[11px] font-bold uppercase tracking-wider mb-2">
+              ฉายจอโปรเจกเตอร์หน้าห้อง
+            </div>
+            <h3 class="text-xl font-extrabold text-white mb-2">โหมดคุณครู (Classroom GM)</h3>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+              คุณครูฉายขึ้นจอใหญ่ แบ่งนักเรียนเป็น 2–6 กลุ่ม ครูเป็นคนคุมเวลาและกดสุ่มการ์ดให้ทั้งห้องลุ้นร่วมกัน พร้อมตารางจัดอันดับ Leaderboard สด
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-indigo-400 font-bold text-sm">
+            <span>เข้าโหมดครูคุมห้อง</span>
+            <span>➔</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-slate-900/60 rounded-2xl border border-slate-800/80 max-w-xl mx-auto flex items-center justify-between text-xs text-slate-400">
+        <span>💡 <strong>วิธีแชร์ให้นักเรียน:</strong> ส่งไฟล์นี้ให้นักเรียนเปิดในเบราว์เซอร์ หรืออัปโหลดขึ้นเว็บโรงเรียนได้ทันที</span>
+        <button onclick="openModal('modalShareInfo')" class="text-amber-400 underline ml-2 whitespace-nowrap">วิธีแชร์</button>
+      </div>
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- MODE A: STUDENT SOLO EXPERIENCE                          -->
+    <!-- ======================================================== -->
+
+    <!-- A1: Student Setup Screen -->
+    <section id="screenStudentSetup" class="hidden my-auto py-8 max-w-md mx-auto w-full text-center">
+      <div class="w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl text-left">
+        <div class="text-center mb-6">
+          <div class="text-4xl mb-2">🎒</div>
+          <h2 class="text-2xl font-black text-white">เตรียมตัวเข้าสู่ ม.ต้น</h2>
+          <p class="text-xs text-slate-400">กรอกชื่อและเลือกตัวละครของคุณ</p>
+        </div>
+
+        <label class="block text-xs font-bold text-slate-300 mb-2">ชื่อของคุณ หรือ ชื่อทีม:</label>
+        <input type="text" id="soloPlayerNameInput" placeholder="เช่น ก้องเกียรติ ม.2/1 หรือ ทีมดาวรุ่ง" 
+               class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm mb-5 font-medium">
+
+        <label class="block text-xs font-bold text-slate-300 mb-2">เลือกตัวละครประจำตัว:</label>
+        <div class="grid grid-cols-4 gap-2 mb-6">
+          <button type="button" onclick="selectSoloAvatar('🐱', this)" class="solo-avatar-btn p-3 rounded-xl bg-slate-800 border-2 border-amber-400 text-2xl flex flex-col items-center">
+            <span>🐱</span>
+            <span class="text-[10px] text-slate-300 mt-1">เหมียวรวย</span>
+          </button>
+          <button type="button" onclick="selectSoloAvatar('🚀', this)" class="solo-avatar-btn p-3 rounded-xl bg-slate-800 border-2 border-transparent text-2xl flex flex-col items-center">
+            <span>🚀</span>
+            <span class="text-[10px] text-slate-300 mt-1">จอมซิ่ง</span>
+          </button>
+          <button type="button" onclick="selectSoloAvatar('🦊', this)" class="solo-avatar-btn p-3 rounded-xl bg-slate-800 border-2 border-transparent text-2xl flex flex-col items-center">
+            <span>🦊</span>
+            <span class="text-[10px] text-slate-300 mt-1">จิ้งจอกเซียน</span>
+          </button>
+          <button type="button" onclick="selectSoloAvatar('🦁', this)" class="solo-avatar-btn p-3 rounded-xl bg-slate-800 border-2 border-transparent text-2xl flex flex-col items-center">
+            <span>🦁</span>
+            <span class="text-[10px] text-slate-300 mt-1">สิงโตป๋า</span>
+          </button>
+        </div>
+
+        <button onclick="startSoloGame()" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-black text-base shadow-lg transition active:scale-95">
+          🚀 เริ่มต้นเทอมที่ 1
+        </button>
+      </div>
+    </section>
+
+    <!-- A2: Student Gameplay Dashboard -->
+    <section id="screenStudentGame" class="hidden flex-col gap-5 max-w-3xl mx-auto w-full">
+      <!-- Top Info -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+          <div class="flex items-center gap-2.5">
+            <span id="soloAvatarDisplay" class="text-3xl">🐱</span>
+            <div>
+              <span id="soloNameDisplay" class="font-extrabold text-white text-sm sm:text-base">ผู้เล่น</span>
+              <div class="text-[11px] text-amber-400" id="soloTermBadge">เทอมที่ 1 จาก 6 (ม.1 เทอมต้น)</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] text-slate-400 block">มูลค่าทรัพย์สินสุทธิ</span>
+            <span id="soloNetWorthDisplay" class="text-lg sm:text-xl font-black text-amber-400">฿0</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-emerald-400 block text-[11px] font-medium">💵 เงินสดในมือ</span>
+            <span id="soloCashDisplay" class="font-bold text-white text-sm sm:text-base">฿0</span>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-sky-400 block text-[11px] font-medium">🏦 ฝากธนาคาร (+6%)</span>
+            <span id="soloSavingsDisplay" class="font-bold text-white text-sm sm:text-base">฿0</span>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-purple-400 block text-[11px] font-medium">📈 พอร์ตลงทุน (เสี่ยงสูง)</span>
+            <span id="soloInvestDisplay" class="font-bold text-white text-sm sm:text-base">฿0</span>
+          </div>
+        </div>
+
+        <div id="soloDebtBanner" class="hidden mt-3 p-2 bg-rose-500/20 border border-rose-500/50 rounded-xl text-xs text-rose-300 flex items-center justify-between animate-pulse">
+          <span>🚨 คุณมีหนี้ฉุกเฉิน: <strong id="soloDebtAmount">฿0</strong> (ดอกเบี้ย 30% ในเทอมถัดไป)</span>
+        </div>
+      </div>
+
+      <!-- Phase 1: Allocation -->
+      <div id="soloPhaseAllocation" class="flex flex-col gap-4">
+        <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-800/40 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-indigo-300 font-semibold mb-0.5" id="soloStoryTerm">เรื่องราวประจำเทอม:</div>
+            <div class="text-xs sm:text-sm text-slate-200" id="soloStoryDesc">เปิดเทอมใหม่ ได้รับเงินค่าขนม ฿3,000</div>
+          </div>
+          <div class="text-right pl-3 border-l border-indigo-800/60">
+            <span class="text-[11px] text-slate-400 block">เงินรอจัดสรร</span>
+            <span id="soloUnallocatedText" class="text-lg font-black text-amber-400">฿3,000</span>
+          </div>
+        </div>
+
+        <!-- 3 Buckets for Solo -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Cash -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xl">💵</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">ดอกเบี้ย 0%</span>
+              </div>
+              <h4 class="font-bold text-sm text-white">เงินสดสำรองฉุกเฉิน</h4>
+              <p class="text-[11px] text-slate-400 mt-1">ไว้จ่ายเหตุฉุกเฉิน ถ้าไม่มีจะติดหนี้ดอกเบี้ย 30%!</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">เพิ่มรอบนี้:</span>
+                <span id="soloAddCashText" class="font-bold text-amber-400">+฿0</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1">
+                <button onclick="adjustSoloAlloc('cash', 500)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+500</button>
+                <button onclick="adjustSoloAlloc('cash', 1000)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+1k</button>
+                <button onclick="adjustSoloAlloc('cash', -500)" class="py-1 text-xs bg-slate-800/50 hover:bg-slate-700 rounded text-slate-400">-500</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Savings -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xl">🏦</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-medium">+6% ทบต้น</span>
+              </div>
+              <h4 class="font-bold text-sm text-white">เงินฝากธนาคาร/สลาก</h4>
+              <p class="text-[11px] text-slate-400 mt-1">ปลอดภัย 100% ไม่มีวันขาดทุน ดอกเบี้ยยิ่งอยู่นานยิ่งโต</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">เพิ่มรอบนี้:</span>
+                <span id="soloAddSavingsText" class="font-bold text-amber-400">+฿0</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1">
+                <button onclick="adjustSoloAlloc('savings', 500)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+500</button>
+                <button onclick="adjustSoloAlloc('savings', 1000)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+1k</button>
+                <button onclick="adjustSoloAlloc('savings', -500)" class="py-1 text-xs bg-slate-800/50 hover:bg-slate-700 rounded text-slate-400">-500</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invest -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xl">📈</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-medium">-25% ถึง +40%</span>
+              </div>
+              <h4 class="font-bold text-sm text-white">การลงทุนวัยรุ่น/หุ้น</h4>
+              <p class="text-[11px] text-slate-400 mt-1">ผลตอบแทนสูง เสี่ยงแต่มีโอกาสพอร์ตเติบโตอย่างก้าวกระโดด</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">เพิ่มรอบนี้:</span>
+                <span id="soloAddInvestText" class="font-bold text-amber-400">+฿0</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1">
+                <button onclick="adjustSoloAlloc('invest', 500)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+500</button>
+                <button onclick="adjustSoloAlloc('invest', 1000)" class="py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-200">+1k</button>
+                <button onclick="adjustSoloAlloc('invest', -500)" class="py-1 text-xs bg-slate-800/50 hover:bg-slate-700 rounded text-slate-400">-500</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy Presets -->
+        <div class="flex items-center justify-between gap-1 p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs">
+          <span class="text-slate-400">⚡ จัดสรรด่วน:</span>
+          <div class="flex gap-1.5">
+            <button onclick="applySoloPreset('safe')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">🛡️ ปลอดภัย</button>
+            <button onclick="applySoloPreset('balance')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">⚖️ สมดุล</button>
+            <button onclick="applySoloPreset('risk')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300">🔥 เสี่ยงสูง</button>
+          </div>
+        </div>
+
+        <button onclick="confirmSoloAllocation()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95">
+          ✅ ยืนยันการจัดสรร & เปิดการ์ดเหตุการณ์ชีวิต
+        </button>
+      </div>
+
+      <!-- Phase 2: Solo Events Resolution -->
+      <div id="soloPhaseEvents" class="hidden flex-col gap-4 animate-flip-in">
+        <div class="text-center">
+          <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold">🎲 ผลลัพธ์เหตุการณ์ประจำเทอม</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Life Event Card -->
+          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider bg-sky-950/80 px-2.5 py-0.5 rounded border border-sky-800">การ์ดชีวิตวัยรุ่น</span>
+              <span id="soloLifeEmoji" class="text-3xl">📱</span>
+            </div>
+            <h4 id="soloLifeTitle" class="font-bold text-base text-white mb-1">มือถือจอแตก!</h4>
+            <p id="soloLifeDesc" class="text-xs text-slate-300 mb-3 leading-relaxed">วิ่งขึ้นตึกเรียน โทรศัพท์ตกจอแตก ต้องซ่อมด่วน</p>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between text-xs font-bold">
+              <span class="text-slate-400">ผลกระทบ:</span>
+              <span id="soloLifeCost" class="text-rose-400">-฿800</span>
+            </div>
+            <div id="soloLifeResolution" class="text-xs mt-2"></div>
+          </div>
+
+          <!-- Market Event Card -->
+          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-950/80 px-2.5 py-0.5 rounded border border-purple-800">ตลาดการลงทุน</span>
+              <span id="soloMarketEmoji" class="text-3xl">📈</span>
+            </div>
+            <h4 id="soloMarketTitle" class="font-bold text-base text-white mb-1">AI บูมสนั่น!</h4>
+            <p id="soloMarketDesc" class="text-xs text-slate-300 mb-3 leading-relaxed">ธุรกิจดิจิทัลโตพรวดพราด พอร์ตขยายตัว</p>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between text-xs font-bold">
+              <span class="text-slate-400">ผลตอบแทนพอร์ต:</span>
+              <span id="soloMarketRate" class="text-emerald-400">+35%</span>
+            </div>
+            <div id="soloMarketResolution" class="text-xs mt-2"></div>
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-sky-950/40 rounded-xl border border-sky-800/40 flex items-center justify-between text-xs">
+          <span class="text-sky-300">🏦 ดอกเบี้ยทบต้นจากเงินฝากธนาคาร (+6%):</span>
+          <span id="soloInterestResult" class="font-bold text-sky-400">+฿0</span>
+        </div>
+
+        <button onclick="nextSoloRound()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95">
+          👉 ไปต่อยังเทอมถัดไป
+        </button>
+      </div>
+    </section>
+
+    <!-- A3: Student Debrief / Grand Finale -->
+    <section id="screenStudentFinale" class="hidden flex-col items-center justify-center py-6 text-center max-w-xl mx-auto w-full">
+      <div class="text-5xl mb-2">🎓🎉✨</div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-2">
+        ยินดีด้วย! คุณจบชั้น ม.3 ครบ 6 เทอมแล้ว
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">
+        สรุปพอร์ตความมั่งคั่งของ <span id="soloFinaleName" class="text-amber-400">คุณ</span>
+      </h2>
+
+      <!-- Archetype Card -->
+      <div class="w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl text-left my-4 relative overflow-hidden">
+        <div class="flex items-center gap-3 mb-4">
+          <div id="soloArchetypeEmoji" class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl">
+            🏆
+          </div>
+          <div>
+            <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">ฉายาทางการเงินของคุณ</div>
+            <h3 id="soloArchetypeTitle" class="text-xl font-black text-white">ยอดนักจัดสรรผู้รอบรู้</h3>
+          </div>
+        </div>
+
+        <p id="soloArchetypeDesc" class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+          คุณจัดสรรเงินได้อย่างลงตัว มีเงินสำรองฉุกเฉินไม่ขาดมือ และรู้จักใช้พลังของดอกเบี้ยทบต้น
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4 text-center">
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">ทรัพย์สินสุทธิ</span>
+            <span id="soloFinalNetWorth" class="text-base sm:text-lg font-black text-amber-400">฿0</span>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">เงินสดเหลือ</span>
+            <span id="soloFinalCash" class="text-sm sm:text-base font-bold text-emerald-300">฿0</span>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">เงินฝากพร้อมดอก</span>
+            <span id="soloFinalSavings" class="text-sm sm:text-base font-bold text-sky-300">฿0</span>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">พอร์ตลงทุน</span>
+            <span id="soloFinalInvest" class="text-sm sm:text-base font-bold text-purple-300">฿0</span>
+          </div>
+        </div>
+
+        <div class="text-xs space-y-1.5 border-t border-slate-800 pt-3">
+          <div class="flex justify-between text-slate-300">
+            <span>✨ ดอกเบี้ยสะสมที่งอกเงย:</span>
+            <span id="soloFinalInterestSum" class="font-bold text-sky-400">+฿0</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>📊 กำไร/ขาดทุนสะสมจากการลงทุน:</span>
+            <span id="soloFinalInvestProfitSum" class="font-bold text-purple-400">+฿0</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>⚠️ จำนวนครั้งที่เงินสดไม่พอจนติดหนี้:</span>
+            <span id="soloFinalDebtCount" class="font-bold text-rose-400">0 ครั้ง</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 w-full">
+        <button onclick="goToHome()" class="flex-1 py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm transition">
+          🔄 กลับหน้าหลัก / เล่นใหม่
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- MODE B: TEACHER CLASSROOM GM EXPERIENCE (ฉายโปรเจกเตอร์)   -->
+    <!-- ======================================================== -->
+
+    <!-- B1: Teacher Setup Screen -->
+    <section id="screenTeacherSetup" class="hidden my-auto py-8 max-w-2xl mx-auto w-full text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-xs font-semibold mb-3">
+        🎓 โหมดคุณครูผู้ดำเนินเกม (Game Master) ฉายขึ้นจอใหญ่
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">ตั้งค่ากลุ่มนักเรียนในห้อง</h2>
+      <p class="text-slate-400 text-xs sm:text-sm mb-6">แบ่งนักเรียนเป็นกลุ่ม (กลุ่มละ 3–5 คน) เลือกจำนวนกลุ่มเพื่อเริ่มการแข่งขัน 6 เทอม</p>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl text-left">
+        <label class="block text-xs font-bold text-slate-200 mb-2">👥 เลือกจำนวนกลุ่ม:</label>
+        <div class="grid grid-cols-5 gap-2 mb-5">
+          <button type="button" onclick="setTeacherTeamCount(2)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">2 กลุ่ม</button>
+          <button type="button" onclick="setTeacherTeamCount(3)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">3 กลุ่ม</button>
+          <button type="button" onclick="setTeacherTeamCount(4)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-amber-400 text-amber-400">4 กลุ่ม</button>
+          <button type="button" onclick="setTeacherTeamCount(5)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">5 กลุ่ม</button>
+          <button type="button" onclick="setTeacherTeamCount(6)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">6 กลุ่ม</button>
+        </div>
+
+        <label class="block text-xs font-bold text-slate-200 mb-2">🏷️ ชื่อทีมของแต่ละกลุ่ม:</label>
+        <div id="teacherTeamInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6"></div>
+
+        <button onclick="startTeacherGame()" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95">
+          🚀 คุณครูคลิกเพื่อเริ่มต้นเทอมที่ 1
+        </button>
+      </div>
+    </section>
+
+    <!-- B2: Teacher Game Dashboard -->
+    <section id="screenTeacherGame" class="hidden flex-col gap-5">
+      <!-- Control Bar -->
+      <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 border-2 border-indigo-500/50 rounded-3xl p-5 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-bold text-xs uppercase" id="teacherTermBadge">เทอมที่ 1 / 6</span>
+            <span class="text-xs text-indigo-300 font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20" id="teacherStepIndicator">ขั้นตอน: จัดสรรเงิน 3 กระเป๋า</span>
+          </div>
+          <h2 id="teacherStepPrompt" class="text-xl sm:text-2xl font-black text-white">ให้นักเรียนแต่ละกลุ่มปรึกษากันเพื่อแบ่งเงิน</h2>
+          <p id="teacherTermStoryPrompt" class="text-xs text-slate-300 mt-0.5">เปิดเทอมใหม่ ทุกกลุ่มได้รับเงิน ฿3,000</p>
+        </div>
+        <button id="teacherActionBtn" onclick="onTeacherActionClick()" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95 flex items-center justify-center gap-2">
+          <span>🎲 ครูคลิกเพื่อสุ่มเปิดการ์ดเหตุการณ์</span>
+        </button>
+      </div>
+
+      <!-- Drama Overlay -->
+      <div id="teacherDramaOverlay" class="hidden bg-slate-900 border-2 border-amber-500/60 rounded-3xl p-5 shadow-2xl animate-flip-in">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+          <h3 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span>📢</span> ผลการสุ่มเหตุการณ์ประจำเทอม โดยคุณครู
+          </h3>
+          <span class="text-xs text-amber-400 font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/10">ทั้งห้องเจอกติกาเดียวกัน!</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-bold text-sky-400 uppercase bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">การ์ดชีวิตวัยรุ่น</span>
+              <span id="teacherDramaLifeEmoji" class="text-3xl">📱</span>
+            </div>
+            <h4 id="teacherDramaLifeTitle" class="font-bold text-white text-base mb-1">มือถือตกจอแตก!</h4>
+            <p id="teacherDramaLifeDesc" class="text-xs text-slate-300 leading-relaxed mb-3">ต้องส่งศูนย์ซ่อมด่วน มีค่าใช้จ่าย</p>
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 text-xs font-semibold">
+              <span class="text-slate-400">เงินที่ต้องจ่าย:</span>
+              <span id="teacherDramaLifeCost" class="text-rose-400 font-bold">-฿800</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-bold text-purple-400 uppercase bg-purple-950/80 px-2 py-0.5 rounded border border-purple-800">ตลาดการลงทุน</span>
+              <span id="teacherDramaMarketEmoji" class="text-3xl">📈</span>
+            </div>
+            <h4 id="teacherDramaMarketTitle" class="font-bold text-white text-base mb-1">AI บูมทั่วโลก!</h4>
+            <p id="teacherDramaMarketDesc" class="text-xs text-slate-300 leading-relaxed mb-3">เทคโนโลยีดิจิทัลทำกำไรร้อนแรง</p>
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 text-xs font-semibold">
+              <span class="text-slate-400">ผลตอบแทน:</span>
+              <span id="teacherDramaMarketRate" class="text-emerald-400 font-bold">+35%</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end pt-2 border-t border-slate-800">
+          <button onclick="applyTeacherEventsAndShowLeaderboard()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-md transition">
+            👉 คุณครูคลิกเพื่อดูตารางอันดับ (Leaderboard)
+          </button>
+        </div>
+      </div>
+
+      <!-- Teams Grid -->
+      <div id="teacherTeamsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+
+      <!-- Leaderboard Overlay -->
+      <div id="teacherLeaderboardOverlay" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-3xl p-5 shadow-2xl animate-flip-in">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+          <h3 class="font-extrabold text-lg text-white flex items-center gap-2">
+            <span>🏆</span> ตารางอันดับความมั่งคั่งประจำเทอม
+          </h3>
+          <button onclick="closeTeacherLeaderboardAndProceed()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition">
+            ไปต่อยังเทอมถัดไป ➔
+          </button>
+        </div>
+        <div id="teacherLeaderboardList" class="space-y-2 mb-3"></div>
+      </div>
+    </section>
+
+    <!-- B3: Teacher Finale & Podium -->
+    <section id="screenTeacherFinale" class="hidden flex-col items-center justify-center py-6 text-center max-w-4xl mx-auto w-full">
+      <div class="text-5xl mb-2">🎓🏆✨</div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-semibold mb-2">
+        จบการศึกษาระดับ ม.3 ครบทั้ง 6 เทอม!
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white mb-6">พิธีประกาศเกียรติคุณ & สรุปบทเรียน</h2>
+      <div id="teacherPodiumContainer" class="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"></div>
+      
+      <div class="w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 text-left mb-6 shadow-2xl">
+        <h3 class="font-extrabold text-base text-white mb-3">💡 3 บทเรียนทองคำที่คุณครูฝากให้นักเรียน ม.2</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/50">
+            <strong class="text-emerald-400 block mb-1">1. เงินสดฉุกเฉินคือเกราะป้องกัน</strong>
+            <span>ถ้าไม่มีเงินสด เมื่อเจอเหตุการณ์ไม่คาดฝันจะต้องกู้หนี้ ดอกเบี้ย 30% จะทำให้เราจนลงอย่างรวดเร็ว</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-sky-950/40 border border-sky-800/50">
+            <strong class="text-sky-400 block mb-1">2. ดอกเบี้ยทบต้นคือเพื่อนแท้</strong>
+            <span>การฝากเงินอาจดูโตช้าในตอนแรก แต่เมื่อทบต้นไปเรื่อย ๆ เงินจะงอกเงยแบบก้าวกระโดด</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-purple-950/40 border border-purple-800/50">
+            <strong class="text-purple-400 block mb-1">3. High Risk, High Return</strong>
+            <span>การลงทุนโตไวแต่ผันผวน อย่าใส่ไข่ไว้ในตะกร้าใบเดียว ควรกระจายความเสี่ยงเสมอ</span>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="goToHome()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm transition">
+        🔄 กลับหน้าหลัก
+      </button>
+    </section>
+
+  </main>
+
+  <!-- MODALS -->
+  <div id="modalTeacherGuide" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="font-bold text-base text-white flex items-center gap-2">
+          <span>📖</span> แผนการจัดกิจกรรมในคาบเรียน 50 นาที
+        </h3>
+        <button onclick="closeModal('modalTeacherGuide')" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div class="space-y-1.5 border-l-2 border-amber-400/60 pl-3">
+          <div><strong class="text-amber-400">0 - 8 นาที:</strong> นำเข้าสู่บทเรียน อธิบาย 3 กระเป๋าเงิน (สด, ฝาก, ลงทุน)</div>
+          <div><strong class="text-amber-400">8 - 32 นาที:</strong> เล่นเกมจำลอง 6 เทอม (นักเรียนเล่นเดี่ยวบนมือถือ หรือแข่งกลุ่มผ่านจอครู)</div>
+          <div><strong class="text-amber-400">32 - 45 นาที:</strong> สรุปฉายาการเงิน & ถอดบทเรียนร่วมกัน (Debrief)</div>
+          <div><strong class="text-amber-400">45 - 50 นาที:</strong> สรุป 3 กฎทอง & บันทึกข้อคิดลงสมุด</div>
+        </div>
+      </div>
+      <div class="p-3 border-t border-slate-800 flex justify-end">
+        <button onclick="closeModal('modalTeacherGuide')" class="px-4 py-2 rounded-xl bg-slate-800 text-white text-xs">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalShareInfo" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+        <h3 class="font-bold text-white text-sm">💡 วิธีส่งให้นักเรียนเปิดเล่นเอง</h3>
+        <button onclick="closeModal('modalShareInfo')" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+        <p>1. <strong>ในห้องคอมพิวเตอร์:</strong> คัดลอกไฟล์ <code class="text-amber-400">index.html</code> ใส่ไดรฟ์เครื่องนักเรียน แล้วดับเบิลคลิกเปิดบน Chrome หรือ Edge ได้ทันที 100% โดยไม่ต้องต่อเน็ต</p>
+        <p>2. <strong>บนมือถือ/แท็บเล็ต:</strong> ครูสามารถนำไฟล์นี้ไปอัปโหลดขึ้นเว็บโรงเรียน, GitHub Pages (ฟรี) หรือ Google Drive แล้วแปลงเป็น QR Code ให้นักเรียนสแกนเล่นในคาบได้เลย</p>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <button onclick="closeModal('modalShareInfo')" class="px-4 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold">เข้าใจแล้ว</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // --- Audio System ---
+    let soundEnabled = true;
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    function playTone(freq, type, duration, delay = 0, vol = 0.1) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        setTimeout(() => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        }, delay);
+      } catch (e) {}
+    }
+    function soundCoin() { playTone(587.33, 'sine', 0.1, 0); playTone(880, 'sine', 0.2, 80); }
+    function soundFanfare() {
+      playTone(523.25, 'triangle', 0.15, 0);
+      playTone(659.25, 'triangle', 0.15, 120);
+      playTone(783.99, 'triangle', 0.25, 240);
+      playTone(1046.50, 'triangle', 0.45, 380);
+    }
+    function soundWarning() { playTone(320, 'sawtooth', 0.2, 0); playTone(200, 'sawtooth', 0.35, 160); }
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundToggleBtn').textContent = soundEnabled ? '🔊' : '🔇';
+      if (soundEnabled) soundCoin();
+    }
+
+    // --- Curated Database for 6 Terms ---
+    const TERMS_DATA = [
+      { badge: "เทอม 1 / 6 (ม.1 เทอมต้น)", story: "เปิดเทอมแรกของ ม.ต้น! ได้รับเงินค่าขนมประจำเทอม ฿3,000", income: 3000 },
+      { badge: "เทอม 2 / 6 (ม.1 เทอมปลาย)", story: "เทศกาลปีใหม่ ได้รับอั่งเปา/ของขวัญพิเศษจากญาติผู้ใหญ่! รวม ฿4,000", income: 4000 },
+      { badge: "เทอม 3 / 6 (ม.2 เทอมต้น)", story: "ขึ้นชั้น ม.2 เตรียมรับมือกิจกรรมกีฬาสีและงานวิชาการ ได้รับเงิน ฿3,200", income: 3200 },
+      { badge: "เทอม 4 / 6 (ม.2 เทอมปลาย)", story: "ช่วยงานอาจารย์และรับจ้างทำกราฟิก ได้เงินเสริมพิเศษ รวม ฿3,800", income: 3800 },
+      { badge: "เทอม 5 / 6 (ม.3 เทอมต้น)", story: "พี่ใหญ่ ม.3 เตรียมตัวซื้อหนังสือและติวเข้มเพื่อสอบเข้า ม.4 ได้รับเงิน ฿3,500", income: 3500 },
+      { badge: "เทอม 6 / 6 (ม.3 เทอมปลาย)", story: "เทอมสุดท้ายของ ม.ต้น! สรุปพอร์ตความมั่งคั่งทั้งหมด ได้รับเงิน ฿3,500", income: 3500 }
+    ];
+
+    const LIFE_CARDS_POOL = [
+      { title: "โทรศัพท์ตกจอแตก!", desc: "รีบวิ่งขึ้นตึกเรียน โทรศัพท์หลุดมือจอแตกละเอียด ต้องส่งร้านซ่อมด่วน", cost: 800, emoji: "📱" },
+      { title: "ฟันคุดอักเสบ ต้องผ่าตัดด่วน!", desc: "ปวดฟันจนเรียนไม่ไหว คุณหมอให้นัดผ่าฟันคุดทันที มีค่ารักษาพยาบาล", cost: 1000, emoji: "🦷" },
+      { title: "เพื่อนชวนไปคอนเสิร์ตวงโปรด", desc: "ศิลปินคนโปรดมาจัดงานครั้งเดียวในรอบ 3 ปี เพื่อนทั้งกลุ่มไปกันหมด", cost: 600, emoji: "🎫" },
+      { title: "ทำกระเป๋าตังค์และบัตรหาย", desc: "ลืมไว้ที่โรงอาหาร ต้องทำบัตรใหม่และเสียค่าใช้จ่ายฉุกเฉิน", cost: 500, emoji: "👛" },
+      { title: "โชคดี! ถูกรางวัลสลากออมสิน", desc: "ครอบครัวซื้อสลากออมสินไว้ ถูกรางวัลเลขท้ายงวดนี้ ได้เงินโบนัสเข้ากระเป๋า!", cost: -800, emoji: "🎉" },
+      { title: "ชนะการประกวดโครงงานวิทย์", desc: "โครงงานของกลุ่มชนะการประกวดระดับเขต ได้รับเงินรางวัลพิเศษ", cost: -1000, emoji: "🥇" }
+    ];
+
+    const MARKET_CARDS_POOL = [
+      { title: "เทรนด์ AI & ดิจิทัล บูมทั่วโลก!", desc: "ธุรกิจออนไลน์และเทคโนโลยีเติบโตอย่างร้อนแรง ผลตอบแทนพุ่งแรง", rate: 0.40, emoji: "🚀" },
+      { title: "เศรษฐกิจสดใส กำลังซื้อฟื้นตัว", desc: "ร้านค้าขายดี คนจับจ่ายใช้สอย การลงทุนให้ผลตอบแทนงดงาม", rate: 0.20, emoji: "📈" },
+      { title: "เกิดวิกฤตเงินเฟ้อ ข้าวของราคาแพง", desc: "ต้นทุนสินค้าพุ่งสูง กำไรธุรกิจหดตัว ตลาดหุ้นผันผวนติดลบ", rate: -0.25, emoji: "📉" },
+      { title: "ตลาดทรงตัวตามฤดูกาล", desc: "ไม่มีเหตุการณ์ตื่นเต้น ธุรกิจดำเนินไปได้ตามเกณฑ์มาตรฐาน", rate: 0.08, emoji: "⚖️" },
+      { title: "สินค้าวัยรุ่นฮิตติดเทรนด์ TikTok!", desc: "สินค้าที่พอร์ตลงทุนถือหุ้นได้รับความนิยมถล่มทลาย ยอดขายพุ่ง", rate: 0.35, emoji: "🔥" },
+      { title: "สงครามตัดราคา สินค้าล้นตลาด", desc: "คู่แข่งจัดโปรลดแลกแจกแถม ยอดขายหดตัว มีการขาดทุนทางบัญชี", rate: -0.15, emoji: "🌧️" }
+    ];
+
+    function formatMoney(num) {
+      return '฿' + Math.round(num).toLocaleString('th-TH');
+    }
+
+    // --- Navigation ---
+    function hideAllScreens() {
+      const screens = [
+        'screenModeSelect',
+        'screenStudentSetup', 'screenStudentGame', 'screenStudentFinale',
+        'screenTeacherSetup', 'screenTeacherGame', 'screenTeacherFinale'
+      ];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+      });
+      document.getElementById('timerContainer').classList.add('hidden');
+      document.getElementById('timerContainer').classList.remove('flex');
+    }
+
+    function goToHome() {
+      hideAllScreens();
+      document.getElementById('screenModeSelect').classList.remove('hidden');
+      document.getElementById('headerModeBadge').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectMode(mode) {
+      hideAllScreens();
+      const badge = document.getElementById('headerModeBadge');
+      badge.classList.remove('hidden');
+
+      if (mode === 'solo') {
+        badge.className = "px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] sm:text-xs font-semibold";
+        badge.textContent = "📱 โหมดนักเรียนเล่นเดี่ยว";
+        document.getElementById('screenStudentSetup').classList.remove('hidden');
+      } else {
+        badge.className = "px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] sm:text-xs font-semibold";
+        badge.textContent = "🎓 โหมดคุณครูคุมห้องเรียน";
+        document.getElementById('screenTeacherSetup').classList.remove('hidden');
+        renderTeacherTeamInputs();
+      }
+      soundCoin();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // SOLO MODE LOGIC
+    // ==========================================
+    let soloState = {
+      name: "นักเรียนคนเก่ง",
+      avatar: "🐱",
+      round: 1,
+      cash: 0,
+      savings: 0,
+      invest: 0,
+      debt: 0,
+      unallocated: 3000,
+      addCash: 0,
+      addSavings: 0,
+      addInvest: 0,
+      totalInterest: 0,
+      totalInvestProfit: 0,
+      debtCount: 0
+    };
+
+    function selectSoloAvatar(emoji, btn) {
+      soloState.avatar = emoji;
+      document.querySelectorAll('.solo-avatar-btn').forEach(b => {
+        b.classList.remove('border-amber-400');
+        b.classList.add('border-transparent');
+      });
+      btn.classList.add('border-amber-400');
+      btn.classList.remove('border-transparent');
+      soundCoin();
+    }
+
+    function startSoloGame() {
+      const name = document.getElementById('soloPlayerNameInput').value.trim();
+      if (name) soloState.name = name;
+      soloState.round = 1;
+      soloState.cash = 0;
+      soloState.savings = 0;
+      soloState.invest = 0;
+      soloState.debt = 0;
+      soloState.totalInterest = 0;
+      soloState.totalInvestProfit = 0;
+      soloState.debtCount = 0;
+
+      hideAllScreens();
+      document.getElementById('screenStudentGame').classList.remove('hidden');
+      document.getElementById('screenStudentGame').classList.add('flex');
+      setupSoloRound(1);
+      soundFanfare();
+    }
+
+    function setupSoloRound(r) {
+      soloState.round = r;
+      const termInfo = TERMS_DATA[r - 1];
+
+      document.getElementById('soloAvatarDisplay').textContent = soloState.avatar;
+      document.getElementById('soloNameDisplay').textContent = soloState.name;
+      document.getElementById('soloTermBadge').textContent = termInfo.badge;
+      document.getElementById('soloStoryDesc').textContent = termInfo.story;
+
+      let income = termInfo.income;
+      if (soloState.debt > 0) {
+        const debtFee = Math.round(soloState.debt * 0.30);
+        const totalDebt = soloState.debt + debtFee;
+        if (income >= totalDebt) {
+          income -= totalDebt;
+          soloState.debt = 0;
+        } else {
+          soloState.debt = totalDebt - income;
+          income = 0;
+        }
+      }
+
+      soloState.unallocated = income;
+      soloState.addCash = 0;
+      soloState.addSavings = 0;
+      soloState.addInvest = 0;
+
+      document.getElementById('soloPhaseAllocation').classList.remove('hidden');
+      document.getElementById('soloPhaseAllocation').classList.add('flex');
+      document.getElementById('soloPhaseEvents').classList.add('hidden');
+
+      updateSoloUI();
+    }
+
+    function updateSoloUI() {
+      const net = soloState.cash + soloState.savings + soloState.invest - soloState.debt;
+      document.getElementById('soloNetWorthDisplay').textContent = formatMoney(net);
+      document.getElementById('soloCashDisplay').textContent = formatMoney(soloState.cash);
+      document.getElementById('soloSavingsDisplay').textContent = formatMoney(soloState.savings);
+      document.getElementById('soloInvestDisplay').textContent = formatMoney(soloState.invest);
+      document.getElementById('soloUnallocatedText').textContent = formatMoney(soloState.unallocated);
+
+      document.getElementById('soloAddCashText').textContent = '+' + formatMoney(soloState.addCash);
+      document.getElementById('soloAddSavingsText').textContent = '+' + formatMoney(soloState.addSavings);
+      document.getElementById('soloAddInvestText').textContent = '+' + formatMoney(soloState.addInvest);
+
+      if (soloState.debt > 0) {
+        document.getElementById('soloDebtBanner').classList.remove('hidden');
+        document.getElementById('soloDebtAmount').textContent = formatMoney(soloState.debt);
+      } else {
+        document.getElementById('soloDebtBanner').classList.add('hidden');
+      }
+    }
+
+    function adjustSoloAlloc(bucket, amount) {
+      if (amount > 0) {
+        if (soloState.unallocated < amount) amount = soloState.unallocated;
+        if (amount <= 0) return;
+        if (bucket === 'cash') soloState.addCash += amount;
+        if (bucket === 'savings') soloState.addSavings += amount;
+        if (bucket === 'invest') soloState.addInvest += amount;
+        soloState.unallocated -= amount;
+        soundCoin();
+      } else {
+        const dec = Math.abs(amount);
+        if (bucket === 'cash') { const c = Math.min(dec, soloState.addCash); soloState.addCash -= c; soloState.unallocated += c; }
+        if (bucket === 'savings') { const c = Math.min(dec, soloState.addSavings); soloState.addSavings -= c; soloState.unallocated += c; }
+        if (bucket === 'invest') { const c = Math.min(dec, soloState.addInvest); soloState.addInvest -= c; soloState.unallocated += c; }
+        soundCoin();
+      }
+      updateSoloUI();
+    }
+
+    function applySoloPreset(type) {
+      soloState.unallocated += (soloState.addCash + soloState.addSavings + soloState.addInvest);
+      soloState.addCash = 0; soloState.addSavings = 0; soloState.addInvest = 0;
+      const total = soloState.unallocated;
+      if (type === 'safe') {
+        soloState.addCash = Math.floor((total * 0.40) / 100) * 100;
+        soloState.addSavings = Math.floor((total * 0.50) / 100) * 100;
+        soloState.addInvest = total - (soloState.addCash + soloState.addSavings);
+      } else if (type === 'balance') {
+        soloState.addCash = Math.floor((total * 0.30) / 100) * 100;
+        soloState.addSavings = Math.floor((total * 0.40) / 100) * 100;
+        soloState.addInvest = total - (soloState.addCash + soloState.addSavings);
+      } else if (type === 'risk') {
+        soloState.addCash = Math.floor((total * 0.10) / 100) * 100;
+        soloState.addSavings = Math.floor((total * 0.20) / 100) * 100;
+        soloState.addInvest = total - (soloState.addCash + soloState.addSavings);
+      }
+      soloState.unallocated = 0;
+      soundCoin();
+      updateSoloUI();
+    }
+
+    function confirmSoloAllocation() {
+      if (soloState.unallocated > 0) {
+        soloState.addCash += soloState.unallocated;
+        soloState.unallocated = 0;
+      }
+      soloState.cash += soloState.addCash;
+      soloState.savings += soloState.addSavings;
+      soloState.invest += soloState.addInvest;
+
+      document.getElementById('soloPhaseAllocation').classList.add('hidden');
+      document.getElementById('soloPhaseEvents').classList.remove('hidden');
+      document.getElementById('soloPhaseEvents').classList.add('flex');
+
+      resolveSoloEvents();
+    }
+
+    function resolveSoloEvents() {
+      // 1. Bank Interest (+6%)
+      const interest = Math.round(soloState.savings * 0.06);
+      soloState.savings += interest;
+      soloState.totalInterest += interest;
+      document.getElementById('soloInterestResult').textContent = '+' + formatMoney(interest);
+
+      // 2. Life Event
+      const lifeCard = LIFE_CARDS_POOL[Math.floor(Math.random() * LIFE_CARDS_POOL.length)];
+      document.getElementById('soloLifeEmoji').textContent = lifeCard.emoji;
+      document.getElementById('soloLifeTitle').textContent = lifeCard.title;
+      document.getElementById('soloLifeDesc').textContent = lifeCard.desc;
+      const resEl = document.getElementById('soloLifeResolution');
+
+      if (lifeCard.cost > 0) {
+        document.getElementById('soloLifeCost').textContent = '-' + formatMoney(lifeCard.cost);
+        document.getElementById('soloLifeCost').className = 'text-rose-400 font-bold';
+        if (soloState.cash >= lifeCard.cost) {
+          soloState.cash -= lifeCard.cost;
+          resEl.innerHTML = `<span class="text-emerald-400">🛡️ หักเงินสดสำรองเรียบร้อย (เหลือเงินสด ${formatMoney(soloState.cash)})</span>`;
+          soundCoin();
+        } else {
+          const shortage = lifeCard.cost - soloState.cash;
+          soloState.cash = 0;
+          soloState.debt += shortage;
+          soloState.debtCount++;
+          resEl.innerHTML = `<span class="text-rose-400 font-bold">🚨 เงินสดไม่พอ! ขาด ${formatMoney(shortage)} ต้องกู้หนี้ดอกเบี้ย 30% ในรอบหน้า!</span>`;
+          soundWarning();
+        }
+      } else {
+        const bonus = Math.abs(lifeCard.cost);
+        soloState.cash += bonus;
+        document.getElementById('soloLifeCost').textContent = '+' + formatMoney(bonus);
+        document.getElementById('soloLifeCost').className = 'text-emerald-400 font-bold';
+        resEl.innerHTML = `<span class="text-emerald-400">🎉 ได้รับเงินโบนัสเข้ากระเป๋าเงินสด!</span>`;
+        soundCoin();
+      }
+
+      // 3. Market Event
+      const marketCard = MARKET_CARDS_POOL[Math.floor(Math.random() * MARKET_CARDS_POOL.length)];
+      document.getElementById('soloMarketEmoji').textContent = marketCard.emoji;
+      document.getElementById('soloMarketTitle').textContent = marketCard.title;
+      document.getElementById('soloMarketDesc').textContent = marketCard.desc;
+
+      const profit = Math.round(soloState.invest * marketCard.rate);
+      soloState.invest += profit;
+      soloState.totalInvestProfit += profit;
+
+      const mRateEl = document.getElementById('soloMarketRate');
+      const mResEl = document.getElementById('soloMarketResolution');
+      if (profit >= 0) {
+        mRateEl.textContent = `+${Math.round(marketCard.rate * 100)}% (+${formatMoney(profit)})`;
+        mRateEl.className = 'text-emerald-400 font-bold';
+        mResEl.innerHTML = `<span class="text-emerald-300">📈 พอร์ตขยายตัวเป็น ${formatMoney(soloState.invest)}</span>`;
+      } else {
+        mRateEl.textContent = `${Math.round(marketCard.rate * 100)}% (${formatMoney(profit)})`;
+        mRateEl.className = 'text-rose-400 font-bold';
+        mResEl.innerHTML = `<span class="text-rose-300">📉 พอร์ตลดลงเหลือ ${formatMoney(soloState.invest)}</span>`;
+      }
+
+      updateSoloUI();
+    }
+
+    function nextSoloRound() {
+      if (soloState.round < 6) {
+        setupSoloRound(soloState.round + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        endSoloGame();
+      }
+    }
+
+    function endSoloGame() {
+      hideAllScreens();
+      document.getElementById('screenStudentFinale').classList.remove('hidden');
+      document.getElementById('screenStudentFinale').classList.add('flex');
+
+      const net = soloState.cash + soloState.savings + soloState.invest - soloState.debt;
+      document.getElementById('soloFinaleName').textContent = soloState.name;
+      document.getElementById('soloFinalNetWorth').textContent = formatMoney(net);
+      document.getElementById('soloFinalCash').textContent = formatMoney(soloState.cash);
+      document.getElementById('soloFinalSavings').textContent = formatMoney(soloState.savings);
+      document.getElementById('soloFinalInvest').textContent = formatMoney(soloState.invest);
+      document.getElementById('soloFinalInterestSum').textContent = '+' + formatMoney(soloState.totalInterest);
+      document.getElementById('soloFinalInvestProfitSum').textContent = (soloState.totalInvestProfit >= 0 ? '+' : '') + formatMoney(soloState.totalInvestProfit);
+      document.getElementById('soloFinalDebtCount').textContent = `${soloState.debtCount} ครั้ง`;
+
+      let title = "ยอดนักจัดสรรพอร์ตสมดุล";
+      let desc = "ยอดเยี่ยมมาก! คุณเดินสายกลาง มีเงินสำรองฉุกเฉินครบ มีเงินฝากทบต้นปลอดภัย และมีการลงทุนเพื่อสร้างความมั่งคั่ง เป็นโมเดลทางการเงินในฝัน!";
+      let emoji = "⚖️";
+
+      if (soloState.debtCount >= 2) {
+        title = "นักเสี่ยงดวงเฉียดล้มละลาย";
+        desc = "คุณไม่ค่อยสำรองเงินสดไว้เลย เมื่อชีวิตโยนวิกฤตเข้ามาจึงต้องกู้หนี้ฉุกเฉินตลอดเวลา บทเรียนสำคัญคือ 'สภาพคล่อง' สำคัญไม่แพ้ผลกำไร!";
+        emoji = "🎢";
+      } else if (soloState.savings >= soloState.invest * 2) {
+        title = "จอมวางแผนรอบคอบ (สายปลอดภัย)";
+        desc = "คุณให้ความสำคัญกับความปลอดภัย ดอกเบี้ยเงินฝากทบต้นทำงานให้คุณอย่างเงียบ ๆ ไม่ต้องปวดหัวกับตลาดหุ้น นอนหลับสบายทุกคืน";
+        emoji = "🛡️";
+      } else if (soloState.invest >= (soloState.savings + soloState.cash)) {
+        title = "เซียนลงทุนกล้าได้กล้าเสีย (สายลุย)";
+        desc = "คุณเชื่อมั่นในการเติบโต กล้าเสี่ยงเพื่อผลตอบแทนก้อนใหญ่ พอร์ตของคุณผันผวนสูงมาก แต่ถ้าจังหวะดีก็รวยเร็วที่สุดในรุ่น!";
+        emoji = "🚀";
+      }
+
+      document.getElementById('soloArchetypeTitle').textContent = title;
+      document.getElementById('soloArchetypeDesc').textContent = desc;
+      document.getElementById('soloArchetypeEmoji').textContent = emoji;
+
+      triggerConfetti();
+      soundFanfare();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // TEACHER GM MODE LOGIC
+    // ==========================================
+    let teacherTeamCount = 4;
+    let teacherRound = 1;
+    let teacherPhase = 'allocation';
+    let teacherTeams = [];
+    let teacherLifeCard = null;
+    let teacherMarketCard = null;
+
+    let timerSeconds = 60;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    const DEFAULT_TEAMS = [
+      { name: "กลุ่ม 1 (เสือดาวดาวรุ่ง)", avatar: "🐆", color: "from-amber-500/20 to-amber-600/10 border-amber-500/40" },
+      { name: "กลุ่ม 2 (อินทรีทอง)", avatar: "🦅", color: "from-sky-500/20 to-sky-600/10 border-sky-500/40" },
+      { name: "กลุ่ม 3 (มังกรสร้างตัว)", avatar: "🐉", color: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/40" },
+      { name: "กลุ่ม 4 (สิงโตเจ้าปัญญา)", avatar: "🦁", color: "from-purple-500/20 to-purple-600/10 border-purple-500/40" },
+      { name: "กลุ่ม 5 (หมาป่านักล่า)", avatar: "🐺", color: "from-rose-500/20 to-rose-600/10 border-rose-500/40" },
+      { name: "กลุ่ม 6 (หมีขาวสายชิล)", avatar: "🐻‍❄️", color: "from-teal-500/20 to-teal-600/10 border-teal-500/40" }
+    ];
+
+    function setTeacherTeamCount(n) {
+      teacherTeamCount = n;
+      document.querySelectorAll('.teacher-team-btn').forEach((btn, idx) => {
+        if (idx + 2 === n) {
+          btn.classList.add('border-amber-400', 'text-amber-400');
+          btn.classList.remove('border-transparent', 'text-slate-200');
+        } else {
+          btn.classList.remove('border-amber-400', 'text-amber-400');
+          btn.classList.add('border-transparent', 'text-slate-200');
+        }
+      });
+      renderTeacherTeamInputs();
+      soundCoin();
+    }
+
+    function renderTeacherTeamInputs() {
+      const container = document.getElementById('teacherTeamInputsContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < teacherTeamCount; i++) {
+        const dt = DEFAULT_TEAMS[i];
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-2 bg-slate-800/60 p-2 rounded-xl border border-slate-700';
+        div.innerHTML = `
+          <span class="text-xl">${dt.avatar}</span>
+          <input type="text" id="teacherTeamInput_${i}" value="${dt.name}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-amber-400 font-medium">
+        `;
+        container.appendChild(div);
+      }
+    }
+
+    function startTeacherGame() {
+      teacherTeams = [];
+      for (let i = 0; i < teacherTeamCount; i++) {
+        const val = document.getElementById(`teacherTeamInput_${i}`).value.trim();
+        const dt = DEFAULT_TEAMS[i];
+        teacherTeams.push({
+          id: i,
+          name: val || dt.name,
+          avatar: dt.avatar,
+          color: dt.color,
+          cash: 0,
+          savings: 0,
+          investments: 0,
+          debt: 0,
+          unallocated: TERMS_DATA[0].income,
+          addCash: 0,
+          addSavings: 0,
+          addInvest: 0,
+          totalInterest: 0,
+          totalInvestProfit: 0,
+          debtCount: 0
+        });
+      }
+
+      hideAllScreens();
+      document.getElementById('screenTeacherGame').classList.remove('hidden');
+      document.getElementById('screenTeacherGame').classList.add('flex');
+      document.getElementById('timerContainer').classList.remove('hidden');
+      document.getElementById('timerContainer').classList.add('flex');
+
+      setupTeacherRound(1);
+      soundFanfare();
+    }
+
+    function setupTeacherRound(r) {
+      teacherRound = r;
+      teacherPhase = 'allocation';
+      const termInfo = TERMS_DATA[r - 1];
+
+      document.getElementById('teacherTermBadge').textContent = termInfo.badge;
+      document.getElementById('teacherStepIndicator').textContent = "ขั้นตอน: จัดสรรเงิน 3 กระเป๋า";
+      document.getElementById('teacherStepPrompt').textContent = "ให้นักเรียนแต่ละกลุ่มปรึกษากันเพื่อแบ่งเงิน";
+      document.getElementById('teacherTermStoryPrompt').textContent = termInfo.story;
+
+      const btn = document.getElementById('teacherActionBtn');
+      btn.innerHTML = `<span>🎲 ครูคลิกเพื่อสุ่มเปิดการ์ดเหตุการณ์</span>`;
+      btn.className = "px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95 flex items-center justify-center gap-2";
+
+      teacherTeams.forEach(t => {
+        let income = termInfo.income;
+        if (t.debt > 0) {
+          const debtFee = Math.round(t.debt * 0.30);
+          const totalOwed = t.debt + debtFee;
+          if (income >= totalOwed) {
+            income -= totalOwed;
+            t.debt = 0;
+          } else {
+            t.debt = totalOwed - income;
+            income = 0;
+          }
+        }
+        t.unallocated = income;
+        t.addCash = 0;
+        t.addSavings = 0;
+        t.addInvest = 0;
+      });
+
+      document.getElementById('teacherDramaOverlay').classList.add('hidden');
+      document.getElementById('teacherLeaderboardOverlay').classList.add('hidden');
+
+      resetTimer(60);
+      startTimer();
+      renderTeacherTeams();
+    }
+
+    function renderTeacherTeams() {
+      const container = document.getElementById('teacherTeamsContainer');
+      container.innerHTML = '';
+
+      teacherTeams.forEach(t => {
+        const netWorth = t.cash + t.savings + t.investments - t.debt;
+        const card = document.createElement('div');
+        card.className = `bg-gradient-to-b ${t.color} bg-slate-900 border rounded-2xl p-4 shadow-xl flex flex-col justify-between`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2.5 border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">${t.avatar}</span>
+                <div>
+                  <h4 class="font-extrabold text-white text-xs sm:text-sm leading-tight">${t.name}</h4>
+                  <div class="text-[10px] text-amber-400 font-semibold">ทรัพย์สิน: ${formatMoney(netWorth)}</div>
+                </div>
+              </div>
+              ${t.debt > 0 ? `<span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[9px] font-bold">หนี้ ${formatMoney(t.debt)}</span>` : ''}
+            </div>
+
+            <div class="grid grid-cols-3 gap-1 text-center mb-2.5">
+              <div class="bg-slate-950 p-1.5 rounded-lg border border-slate-800">
+                <span class="text-[9px] text-emerald-400 block">💵 สด</span>
+                <span class="text-xs font-bold text-white">${formatMoney(t.cash)}</span>
+              </div>
+              <div class="bg-slate-950 p-1.5 rounded-lg border border-slate-800">
+                <span class="text-[9px] text-sky-400 block">🏦 ฝาก</span>
+                <span class="text-xs font-bold text-white">${formatMoney(t.savings)}</span>
+              </div>
+              <div class="bg-slate-950 p-1.5 rounded-lg border border-slate-800">
+                <span class="text-[9px] text-purple-400 block">📈 ลงทุน</span>
+                <span class="text-xs font-bold text-white">${formatMoney(t.investments)}</span>
+              </div>
+            </div>
+
+            ${teacherPhase === 'allocation' ? `
+              <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 space-y-1.5 text-xs">
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="text-slate-400">รอจัดสรร:</span>
+                  <span class="font-bold ${t.unallocated > 0 ? 'text-amber-400' : 'text-emerald-400'}">${formatMoney(t.unallocated)}</span>
+                </div>
+                <div class="space-y-1 pt-1 border-t border-slate-800/80 text-[11px]">
+                  <div class="flex items-center justify-between">
+                    <span class="text-emerald-300">สด:</span>
+                    <div class="flex items-center gap-1">
+                      <span class="font-bold text-white">${formatMoney(t.addCash)}</span>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'cash', 500)" class="px-1 bg-slate-800 rounded">+500</button>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'cash', -500)" class="px-1 bg-slate-800/60 rounded">-</button>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-sky-300">ฝาก:</span>
+                    <div class="flex items-center gap-1">
+                      <span class="font-bold text-white">${formatMoney(t.addSavings)}</span>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'savings', 500)" class="px-1 bg-slate-800 rounded">+500</button>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'savings', -500)" class="px-1 bg-slate-800/60 rounded">-</button>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-purple-300">ลงทุน:</span>
+                    <div class="flex items-center gap-1">
+                      <span class="font-bold text-white">${formatMoney(t.addInvest)}</span>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'invest', 500)" class="px-1 bg-slate-800 rounded">+500</button>
+                      <button onclick="changeTeacherTeamAlloc(${t.id}, 'invest', -500)" class="px-1 bg-slate-800/60 rounded">-</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-1 pt-1 text-[9px]">
+                  <span class="text-slate-500">จัดด่วน:</span>
+                  <button onclick="applyTeacherTeamPreset(${t.id}, 'safe')" class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">🛡️ ปลอดภัย</button>
+                  <button onclick="applyTeacherTeamPreset(${t.id}, 'balance')" class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">⚖️ สมดุล</button>
+                  <button onclick="applyTeacherTeamPreset(${t.id}, 'risk')" class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">🔥 เสี่ยงสูง</button>
+                </div>
+              </div>
+            ` : `
+              <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
+                <div class="font-bold text-emerald-400" id="teacherTeamRoundResult_${t.id}">ผลลัพธ์รอบนี้...</div>
+              </div>
+            `}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function changeTeacherTeamAlloc(teamId, bucket, amount) {
+      const t = teacherTeams.find(item => item.id === teamId);
+      if (!t) return;
+      if (amount > 0) {
+        if (t.unallocated < amount) amount = t.unallocated;
+        if (amount <= 0) return;
+        if (bucket === 'cash') t.addCash += amount;
+        if (bucket === 'savings') t.addSavings += amount;
+        if (bucket === 'invest') t.addInvest += amount;
+        t.unallocated -= amount;
+        soundCoin();
+      } else {
+        const dec = Math.abs(amount);
+        if (bucket === 'cash') { const c = Math.min(dec, t.addCash); t.addCash -= c; t.unallocated += c; }
+        if (bucket === 'savings') { const c = Math.min(dec, t.addSavings); t.addSavings -= c; t.unallocated += c; }
+        if (bucket === 'invest') { const c = Math.min(dec, t.addInvest); t.addInvest -= c; t.unallocated += c; }
+        soundCoin();
+      }
+      renderTeacherTeams();
+    }
+
+    function applyTeacherTeamPreset(teamId, type) {
+      const t = teacherTeams.find(item => item.id === teamId);
+      if (!t) return;
+      t.unallocated += (t.addCash + t.addSavings + t.addInvest);
+      t.addCash = 0; t.addSavings = 0; t.addInvest = 0;
+      const total = t.unallocated;
+      if (type === 'safe') {
+        t.addCash = Math.floor((total * 0.40) / 100) * 100;
+        t.addSavings = Math.floor((total * 0.50) / 100) * 100;
+        t.addInvest = total - (t.addCash + t.addSavings);
+      } else if (type === 'balance') {
+        t.addCash = Math.floor((total * 0.30) / 100) * 100;
+        t.addSavings = Math.floor((total * 0.40) / 100) * 100;
+        t.addInvest = total - (t.addCash + t.addSavings);
+      } else if (type === 'risk') {
+        t.addCash = Math.floor((total * 0.10) / 100) * 100;
+        t.addSavings = Math.floor((total * 0.20) / 100) * 100;
+        t.addInvest = total - (t.addCash + t.addSavings);
+      }
+      t.unallocated = 0;
+      soundCoin();
+      renderTeacherTeams();
+    }
+
+    function onTeacherActionClick() {
+      teacherTeams.forEach(t => {
+        if (t.unallocated > 0) {
+          t.addCash += t.unallocated;
+          t.unallocated = 0;
+        }
+        t.cash += t.addCash;
+        t.savings += t.addSavings;
+        t.investments += t.addInvest;
+      });
+
+      pauseTimer();
+      teacherPhase = 'drama';
+      teacherLifeCard = LIFE_CARDS_POOL[Math.floor(Math.random() * LIFE_CARDS_POOL.length)];
+      teacherMarketCard = MARKET_CARDS_POOL[Math.floor(Math.random() * MARKET_CARDS_POOL.length)];
+
+      document.getElementById('teacherDramaLifeEmoji').textContent = teacherLifeCard.emoji;
+      document.getElementById('teacherDramaLifeTitle').textContent = teacherLifeCard.title;
+      document.getElementById('teacherDramaLifeDesc').textContent = teacherLifeCard.desc;
+      document.getElementById('teacherDramaLifeCost').textContent = (teacherLifeCard.cost > 0 ? '-' : '+') + formatMoney(Math.abs(teacherLifeCard.cost));
+      document.getElementById('teacherDramaLifeCost').className = teacherLifeCard.cost > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold';
+
+      document.getElementById('teacherDramaMarketEmoji').textContent = teacherMarketCard.emoji;
+      document.getElementById('teacherDramaMarketTitle').textContent = teacherMarketCard.title;
+      document.getElementById('teacherDramaMarketDesc').textContent = teacherMarketCard.desc;
+      document.getElementById('teacherDramaMarketRate').textContent = (teacherMarketCard.rate > 0 ? '+' : '') + Math.round(teacherMarketCard.rate * 100) + '%';
+      document.getElementById('teacherDramaMarketRate').className = teacherMarketCard.rate >= 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold';
+
+      document.getElementById('teacherDramaOverlay').classList.remove('hidden');
+      document.getElementById('teacherDramaOverlay').scrollIntoView({ behavior: 'smooth' });
+
+      soundWarning();
+      renderTeacherTeams();
+    }
+
+    function applyTeacherEventsAndShowLeaderboard() {
+      teacherTeams.forEach(t => {
+        let msg = [];
+        const interest = Math.round(t.savings * 0.06);
+        t.savings += interest;
+        t.totalInterest += interest;
+        if (interest > 0) msg.push(`🏦 ดอกเบี้ย +${formatMoney(interest)}`);
+
+        if (teacherLifeCard.cost > 0) {
+          if (t.cash >= teacherLifeCard.cost) {
+            t.cash -= teacherLifeCard.cost;
+            msg.push(`🛡️ จ่ายทัน (-${formatMoney(teacherLifeCard.cost)})`);
+          } else {
+            const short = teacherLifeCard.cost - t.cash;
+            t.cash = 0;
+            t.debt += short;
+            t.debtCount++;
+            msg.push(`🚨 ขาด ${formatMoney(short)} (หนี้ 30%)`);
+          }
+        } else {
+          const bonus = Math.abs(teacherLifeCard.cost);
+          t.cash += bonus;
+          msg.push(`🎉 โบนัส +${formatMoney(bonus)}`);
+        }
+
+        const profit = Math.round(t.investments * teacherMarketCard.rate);
+        t.investments += profit;
+        t.totalInvestProfit += profit;
+        if (profit >= 0) msg.push(`📈 กำไร +${formatMoney(profit)}`);
+        else msg.push(`📉 ขาดทุน ${formatMoney(profit)}`);
+
+        const el = document.getElementById(`teacherTeamRoundResult_${t.id}`);
+        if (el) el.innerHTML = msg.join('<br>');
+      });
+
+      document.getElementById('teacherDramaOverlay').classList.add('hidden');
+      showTeacherLeaderboard();
+    }
+
+    function showTeacherLeaderboard() {
+      const sorted = [...teacherTeams].sort((a, b) => {
+        const netA = a.cash + a.savings + a.investments - a.debt;
+        const netB = b.cash + b.savings + b.investments - b.debt;
+        return netB - netA;
+      });
+
+      const listEl = document.getElementById('teacherLeaderboardList');
+      listEl.innerHTML = '';
+      sorted.forEach((t, rank) => {
+        const netWorth = t.cash + t.savings + t.investments - t.debt;
+        const medal = rank === 0 ? '🥇' : rank === 1 ? '🥈' : rank === 2 ? '🥉' : `#${rank + 1}`;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between p-3 rounded-xl ${rank === 0 ? 'bg-amber-500/20 border border-amber-500/50' : 'bg-slate-950 border border-slate-800'}`;
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="text-xl font-black w-6 text-center text-amber-400">${medal}</span>
+            <span class="text-xl">${t.avatar}</span>
+            <div>
+              <strong class="text-white text-xs sm:text-sm block">${t.name}</strong>
+              <div class="text-[10px] text-slate-400">สด ${formatMoney(t.cash)} | ฝาก ${formatMoney(t.savings)} | ลงทุน ${formatMoney(t.investments)}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm sm:text-base font-black text-amber-400">${formatMoney(netWorth)}</div>
+            ${t.debt > 0 ? `<div class="text-[9px] text-rose-400">หนี้ ${formatMoney(t.debt)}</div>` : ''}
+          </div>
+        `;
+        listEl.appendChild(row);
+      });
+
+      document.getElementById('teacherLeaderboardOverlay').classList.remove('hidden');
+      soundFanfare();
+    }
+
+    function closeTeacherLeaderboardAndProceed() {
+      if (teacherRound < 6) {
+        setupTeacherRound(teacherRound + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showTeacherGrandFinale();
+      }
+    }
+
+    function showTeacherGrandFinale() {
+      hideAllScreens();
+      document.getElementById('screenTeacherFinale').classList.remove('hidden');
+      document.getElementById('screenTeacherFinale').classList.add('flex');
+
+      const sorted = [...teacherTeams].sort((a, b) => {
+        const netA = a.cash + a.savings + a.investments - a.debt;
+        const netB = b.cash + b.savings + b.investments - b.debt;
+        return netB - netA;
+      });
+
+      const podEl = document.getElementById('teacherPodiumContainer');
+      podEl.innerHTML = '';
+      sorted.slice(0, 3).forEach((t, idx) => {
+        const net = t.cash + t.savings + t.investments - t.debt;
+        const title = idx === 0 ? "🏆 แชมป์เศรษฐีวัยรุ่น" : idx === 1 ? "🥈 รองอันดับ 1" : "🥉 รองอันดับ 2";
+        const glow = idx === 0 ? "gold-glow border-amber-400" : "border-slate-800";
+        const card = document.createElement('div');
+        card.className = `bg-slate-900 border-2 ${glow} rounded-2xl p-5 text-center shadow-xl flex flex-col justify-between`;
+        card.innerHTML = `
+          <div>
+            <div class="text-[10px] font-bold text-amber-400 uppercase mb-1">${title}</div>
+            <div class="text-4xl mb-1">${t.avatar}</div>
+            <h4 class="font-extrabold text-white text-base mb-1">${t.name}</h4>
+            <div class="text-xl font-black text-amber-300 mb-2">${formatMoney(net)}</div>
+          </div>
+          <div class="text-[10px] text-slate-400 border-t border-slate-800 pt-2">
+            ดอกเบี้ย: <span class="text-sky-300">+${formatMoney(t.totalInterest)}</span> | กำไรหุ้น: <span class="${t.totalInvestProfit >= 0 ? 'text-emerald-300' : 'text-rose-300'}">${formatMoney(t.totalInvestProfit)}</span>
+          </div>
+        `;
+        podEl.appendChild(card);
+      });
+
+      triggerConfetti();
+      soundFanfare();
+    }
+
+    // --- Timer System ---
+    function formatTimerDisplay(sec) {
+      const m = Math.floor(sec / 60); const s = sec % 60;
+      return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+    function resetTimer(seconds) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = seconds;
+      document.getElementById('timerText').textContent = formatTimerDisplay(timerSeconds);
+      document.getElementById('timerBtn').textContent = "เริ่ม";
+    }
+    function startTimer() {
+      if (timerRunning) return;
+      timerRunning = true;
+      document.getElementById('timerBtn').textContent = "หยุด";
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          document.getElementById('timerText').textContent = formatTimerDisplay(timerSeconds);
+        } else {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          soundWarning();
+          document.getElementById('timerBtn').textContent = "หมด";
+        }
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(timerInterval); timerRunning = false; document.getElementById('timerBtn').textContent = "เริ่ม"; }
+    function toggleTimer() { if (timerRunning) pauseTimer(); else { if (timerSeconds === 0) timerSeconds = 60; startTimer(); } }
+    function addTime(s) { timerSeconds += s; document.getElementById('timerText').textContent = formatTimerDisplay(timerSeconds); soundCoin(); }
+
+    // --- Modal Controls ---
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // --- Confetti Animation ---
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const colors = ['#f59e0b', '#10b981', '#38bdf8', '#a855f7', '#ec4899'];
+      for (let i = 0; i < 100; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          speedY: Math.random() * 3 + 2,
+          speedX: (Math.random() - 0.5) * 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360
+        });
+      }
+      let frames = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.speedY; p.x += p.speedX; p.rotation += 2;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+        frames++;
+        if (frames < 200) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
