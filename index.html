@@ -222,7 +222,7 @@
             <span id="soloCashDisplay" class="font-bold text-white text-sm sm:text-base">฿0</span>
           </div>
           <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-            <span class="text-sky-400 block text-[11px] font-medium">🏦 ฝากธนาคาร (+6%)</span>
+            <span class="text-sky-400 block text-[11px] font-medium">🏦 ฝากธนาคาร (+4%)</span>
             <span id="soloSavingsDisplay" class="font-bold text-white text-sm sm:text-base">฿0</span>
           </div>
           <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
@@ -279,7 +279,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <span class="text-xl">🏦</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-medium">+6% ทบต้น</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-medium">+4% ทบต้น</span>
               </div>
               <h4 class="font-bold text-sm text-white">เงินฝากธนาคาร/สลาก</h4>
               <p class="text-[11px] text-slate-400 mt-1">ปลอดภัย 100% ไม่มีวันขาดทุน ดอกเบี้ยยิ่งอยู่นานยิ่งโต</p>
@@ -375,7 +375,7 @@
         </div>
 
         <div class="p-3.5 bg-sky-950/40 rounded-xl border border-sky-800/40 flex items-center justify-between text-xs">
-          <span class="text-sky-300">🏦 ดอกเบี้ยทบต้นจากเงินฝากธนาคาร (+6%):</span>
+          <span class="text-sky-300">🏦 ดอกเบี้ยทบต้นจากเงินฝากธนาคาร (+4%):</span>
           <span id="soloInterestResult" class="font-bold text-sky-400">+฿0</span>
         </div>
 
@@ -440,8 +440,12 @@
             <span id="soloFinalInvestProfitSum" class="font-bold text-purple-400">+฿0</span>
           </div>
           <div class="flex justify-between text-slate-300">
-            <span>⚠️ จำนวนครั้งที่เงินสดไม่พอจนติดหนี้:</span>
+            <span>⚠️ จำนวนครั้งที่ขาดสภาพคล่องฉุกเฉิน:</span>
             <span id="soloFinalDebtCount" class="font-bold text-rose-400">0 ครั้ง</span>
+          </div>
+          <div id="soloDisciplineBonusRow" class="flex justify-between items-center py-1.5 px-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+            <span>🏅 โบนัสวินัยการเงิน (สภาพคล่องสมบูรณ์):</span>
+            <span id="soloFinalDisciplineBonus" class="text-amber-400 font-bold">+฿800</span>
           </div>
         </div>
       </div>
@@ -640,8 +644,8 @@
               </div>
               <ul class="text-[11px] text-slate-400 space-y-1">
                 <li>• ผลตอบแทน: <strong>0%</strong></li>
-                <li>• ไว้จ่ายเมื่อเจอเหตุการณ์ไม่คาดฝัน (เช่น มือถือพัง, ป่วย)</li>
-                <li>• <strong class="text-rose-400">ถ้าเงินสดไม่พอ จะถูกบังคับกู้หนี้ดอกเบี้ย 30% ทันที!</strong></li>
+                <li>• ไว้จ่ายเมื่อเจอเหตุการณ์ฉุกเฉิน (เช่น มือถือจอแตก, ป่วย)</li>
+                <li>• <strong class="text-rose-400">ถ้าเงินสดไม่พอ:</strong> ต้องถูกบังคับขายหุ้นลดราคา 20% ขาดทุนทันที และหากยังไม่พอจะติดหนี้ดอกเบี้ย 30%!</li>
               </ul>
             </div>
 
@@ -650,7 +654,7 @@
                 <span>🏦</span> เงินฝากธนาคาร/สลาก
               </div>
               <ul class="text-[11px] text-slate-400 space-y-1">
-                <li>• ผลตอบแทน: <strong>+6% ทุกเทอม</strong></li>
+                <li>• ผลตอบแทน: <strong>+4% ทุกเทอม</strong></li>
                 <li>• ปลอดภัย 100% ไม่มีวันขาดทุน</li>
                 <li>• พลัง <strong>"ดอกเบี้ยทบต้น"</strong> ยิ่งอยู่นาน ดอกเบี้ยยิ่งทวีคูณ</li>
               </ul>
@@ -661,11 +665,15 @@
                 <span>📈</span> พอร์ตการลงทุนวัยรุ่น
               </div>
               <ul class="text-[11px] text-slate-400 space-y-1">
-                <li>• ผลตอบแทน: <strong>-25% ถึง +40%</strong></li>
-                <li>• High Risk, High Return</li>
-                <li>• มีโอกาสพอร์ตโตไว หรืออาจขาดทุนตามสภาวะเศรษฐกิจ</li>
+                <li>• ผลตอบแทน: <strong>-28% ถึง +30%</strong></li>
+                <li>• High Risk, High Return เติบโตตามวัฏจักรเศรษฐกิจ</li>
+                <li>• ผันผวนสูง มีโอกาสได้กำไรก้อนใหญ่หรือขาดทุน</li>
               </ul>
             </div>
+          </div>
+          <div class="mt-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex items-center gap-2">
+            <span class="text-lg">🏅</span>
+            <div><strong>กฎโบนัสพิเศษ:</strong> ผู้เล่นหรือกลุ่มที่ไม่เคยขาดสภาพคล่องฉุกเฉินตลอด 6 เทอม รับ <strong>"โบนัสวินัยทางการเงินยอดเยี่ยม +฿800"</strong> ตอนจบเกม!</div>
           </div>
         </div>
 
@@ -677,7 +685,7 @@
           <ol class="space-y-2.5 border-l-2 border-indigo-500/50 pl-3">
             <li class="text-xs">
               <strong class="text-indigo-300 block mb-0.5">ขั้นที่ 1: รับเงินประจำเทอม (Income Phase)</strong>
-              ทุกเทอมจะได้รับเงินค่าขนม ฿3,000 - ฿4,000 (บางเทอมมีโบนัสพิเศษ เช่น แต๊ะเอีย หรือค่าจ้างพิเศษ)
+              ทุกเทอมจะได้รับเงินค่าขนม ฿3,000 - ฿3,800 (บางเทอมมีโบนัสพิเศษ เช่น แต๊ะเอีย หรือค่าจ้างพิเศษ)
             </li>
             <li class="text-xs">
               <strong class="text-indigo-300 block mb-0.5">ขั้นที่ 2: ตัดสินใจจัดสรรเงิน (Allocation Phase)</strong>
@@ -685,15 +693,15 @@
             </li>
             <li class="text-xs">
               <strong class="text-indigo-300 block mb-0.5">ขั้นที่ 3: เผชิญหน้าการ์ดเหตุการณ์ (Event & Market Phase)</strong>
-              ระบบจะสุ่มเปิดการ์ด 2 ใบ:
+              ระบบจะสุ่มเปิดการ์ด 2 ใบจากคลังการ์ดจำลองกว่า 32 สถานการณ์:
               <div class="mt-1 pl-2 text-slate-400 space-y-0.5">
-                <div>• <strong>การ์ดชีวิตวัยรุ่น:</strong> อาจโชคดีได้รับรางวัล หรือโชคร้ายมีค่าใช้จ่ายฉุกเฉิน (หักจากเงินสด)</div>
-                <div>• <strong>การ์ดตลาดการลงทุน:</strong> ตลาดบูมได้กำไร หรือตลาดดิ่งทำให้พอร์ตขาดทุน</div>
+                <div>• <strong>การ์ดชีวิตวัยรุ่น (18 สถานการณ์):</strong> อาจโชคดีได้รับรางวัล หรือโชคร้ายมีค่าใช้จ่ายฉุกเฉิน (หักจากเงินสด)</div>
+                <div>• <strong>การ์ดตลาดการลงทุน (14 สถานการณ์):</strong> ตลาดบูมได้กำไร หรือตลาดดิ่งทำให้พอร์ตขาดทุน</div>
               </div>
             </li>
             <li class="text-xs">
               <strong class="text-indigo-300 block mb-0.5">ขั้นที่ 4: รับดอกเบี้ย & สรุปผล (Summary Phase)</strong>
-              รับดอกเบี้ยเงินฝากธนาคาร +6% ทบต้น คำนวณทรัพย์สินสุทธิ แล้วก้าวสู่เทอมถัดไป
+              รับดอกเบี้ยเงินฝากธนาคาร +4% ทบต้น คำนวณทรัพย์สินสุทธิ แล้วก้าวสู่เทอมถัดไป
             </li>
           </ol>
         </div>
@@ -849,21 +857,41 @@
     ];
 
     const LIFE_CARDS_POOL = [
-      { title: "โทรศัพท์ตกจอแตก!", desc: "รีบวิ่งขึ้นตึกเรียน โทรศัพท์หลุดมือจอแตกละเอียด ต้องส่งร้านซ่อมด่วน", cost: 800, emoji: "📱" },
-      { title: "ฟันคุดอักเสบ ต้องผ่าตัดด่วน!", desc: "ปวดฟันจนเรียนไม่ไหว คุณหมอให้นัดผ่าฟันคุดทันที มีค่ารักษาพยาบาล", cost: 1000, emoji: "🦷" },
-      { title: "เพื่อนชวนไปคอนเสิร์ตวงโปรด", desc: "ศิลปินคนโปรดมาจัดงานครั้งเดียวในรอบ 3 ปี เพื่อนทั้งกลุ่มไปกันหมด", cost: 600, emoji: "🎫" },
-      { title: "ทำกระเป๋าตังค์และบัตรหาย", desc: "ลืมไว้ที่โรงอาหาร ต้องทำบัตรใหม่และเสียค่าใช้จ่ายฉุกเฉิน", cost: 500, emoji: "👛" },
-      { title: "โชคดี! ถูกรางวัลสลากออมสิน", desc: "ครอบครัวซื้อสลากออมสินไว้ ถูกรางวัลเลขท้ายงวดนี้ ได้เงินโบนัสเข้ากระเป๋า!", cost: -800, emoji: "🎉" },
-      { title: "ชนะการประกวดโครงงานวิทย์", desc: "โครงงานของกลุ่มชนะการประกวดระดับเขต ได้รับเงินรางวัลพิเศษ", cost: -1000, emoji: "🥇" }
+      { title: "โทรศัพท์หลุดมือจอแตกละเอียด!", desc: "รีบวิ่งขึ้นตึกเรียน โทรศัพท์หลุดมือจอแตก ต้องส่งร้านซ่อมด่วน ไม่งั้นคุยไลน์กลุ่มไม่ได้", cost: 800, emoji: "📱" },
+      { title: "ฟันคุดอักเสบ ต้องผ่าตัดด่วน!", desc: "ปวดฟันจนเรียนไม่ไหว คุณหมอคลินิกให้นัดผ่าฟันคุดทันที มีค่ายาและค่าผ่าตัด", cost: 1000, emoji: "🦷" },
+      { title: "เพื่อนสนิทชวนไปคอนเสิร์ตวงโปรด", desc: "ศิลปินคนโปรดจัดแฟนมีตติ้ง เพื่อนทั้งกลุ่มนัดใส่เสื้อทีมไปกันหมด", cost: 600, emoji: "🎫" },
+      { title: "ลืมกระเป๋าสตางค์และบัตรบนรถสองแถว", desc: "ลืมไว้ตอนรีบลงรถ ต้องทำบัตรนักเรียนใหม่และสำรองจ่ายค่าเดินทางฉุกเฉิน", cost: 500, emoji: "👛" },
+      { title: "แว่นสายตาหักตอนเล่นกีฬา", desc: "ลูกบาสกระแทกใส่แว่นหักครึ่ง มองกระดานเรียนไม่เห็น ต้องตัดเลนส์ใหม่ด่วน", cost: 900, emoji: "👓" },
+      { title: "หูฟังบลูทูธตกน้ำพังสนิท", desc: "ลืมไว้ในกระเป๋าเสื้อตอนเอาผ้าไปซัก พังใช้งานไม่ได้ ต้องซื้อใหม่ไว้ฟังคลิปเรียน", cost: 700, emoji: "🎧" },
+      { title: "คอมพิวเตอร์ติดไวรัส ฮาร์ดดิสก์พัง", desc: "เปิดเครื่องไม่ติด ไฟล์รายงานกลุ่มหายหมด ต้องจ้างช่างคอมกู้ข้อมูลและลงโปรแกรมใหม่", cost: 1200, emoji: "💻" },
+      { title: "ชุดนักเรียนและรองเท้าพังรับเปิดเทอม", desc: "ตัวสูงขึ้นเร็วมาก รองเท้าคู่เดิมบีบจนใส่ไม่ได้ ต้องซื้อชุดและรองเท้าใหม่", cost: 600, emoji: "👟" },
+      { title: "จักรยานคันโปรดยางรั่ว โซ่ขาด", desc: "ปั่นมาโรงเรียนแล้วโซ่ขาดกลางทาง ต้องเข็นเข้าร้านซ่อมเปลี่ยนยางและโซ่", cost: 300, emoji: "🚲" },
+      { title: "สัตว์เลี้ยงแสนรักป่วยกะทันหัน", desc: "น้องหมา/น้องแมวซึม ไม่ยอมกินข้าว ต้องพาไปคลินิกรักษาสัตว์กลางดึก", cost: 1100, emoji: "🐱" },
+      { title: "ทำชานมไข่มุกหกรดสมุดการบ้าน", desc: "ชนโต๊ะเรียน น้ำหกใส่กระเป๋า สมุดเปื่อยยุ่ย ต้องซื้อเครื่องเขียนและทำส่งอาจารย์ใหม่", cost: 400, emoji: "🧋" },
+      { title: "ป่วยไข้เลือดออก ต้องนอนโรงพยาบาล", desc: "ยุงลายกัด ป่วยหนักต้องนอนแอดมิท 3 คืน มีส่วนต่างค่าห้องและค่ายาพิเศษ", cost: 1400, emoji: "🏥" },
+      { title: "ช่วยงานสตาฟฟ์กีฬาสีโรงเรียน", desc: "ทุ่มเทคุมสแตนด์เชียร์และพาเหรด อาจารย์และรุ่นพี่ประทับใจให้เบี้ยเลี้ยงพิเศษ!", cost: -500, emoji: "🚩" },
+      { title: "โครงงานวิทย์คว้ารางวัลชนะเลิศ", desc: "โครงงานสิ่งประดิษฐ์รีไซเคิลของกลุ่มชนะระดับเขต ได้เงินรางวัลทุนการศึกษามาแบ่งกัน!", cost: -1000, emoji: "🥇" },
+      { title: "รับจ้างวาดรูปการ์ตูน/สติ๊กเกอร์ขาย", desc: "ใช้เวลาว่างวาดรูปโปรไฟล์และออกแบบของที่ระลึก มีคนมาสั่งจ้างเพียบ ได้เงินเข้ากระเป๋า!", cost: -700, emoji: "🎨" },
+      { title: "โชคดี! ถูกรางวัลสลากออมสินเลขท้าย", desc: "ครอบครัวซื้อสลากออมสินไว้ งวดนี้ถูกรางวัลเลขท้าย 3 ตัว ได้ส่วนแบ่งโบนัสก้อนโต!", cost: -800, emoji: "🎉" },
+      { title: "ขายเสื้อผ้ามือสองและของสะสมในตลาดนัด", desc: "รื้อของเล่นและเสื้อผ้าเก่าสภาพดีไปตั้งแผงขายในงานโรงเรียน ขายดีเกลี้ยงแผง!", cost: -600, emoji: "👕" },
+      { title: "ช่วยอาจารย์จัดค่ายวิชาการช่วงปิดเทอม", desc: "เป็นพี่เลี้ยงช่วยดูแลน้อง ม.1 ในค่ายวิทยาศาสตร์ ได้รับเงินค่าตอบแทนก้อนโต!", cost: -1200, emoji: "📚" }
     ];
 
     const MARKET_CARDS_POOL = [
-      { title: "เทรนด์ AI & ดิจิทัล บูมทั่วโลก!", desc: "ธุรกิจออนไลน์และเทคโนโลยีเติบโตอย่างร้อนแรง ผลตอบแทนพุ่งแรง", rate: 0.40, emoji: "🚀" },
-      { title: "เศรษฐกิจสดใส กำลังซื้อฟื้นตัว", desc: "ร้านค้าขายดี คนจับจ่ายใช้สอย การลงทุนให้ผลตอบแทนงดงาม", rate: 0.20, emoji: "📈" },
-      { title: "เกิดวิกฤตเงินเฟ้อ ข้าวของราคาแพง", desc: "ต้นทุนสินค้าพุ่งสูง กำไรธุรกิจหดตัว ตลาดหุ้นผันผวนติดลบ", rate: -0.25, emoji: "📉" },
-      { title: "ตลาดทรงตัวตามฤดูกาล", desc: "ไม่มีเหตุการณ์ตื่นเต้น ธุรกิจดำเนินไปได้ตามเกณฑ์มาตรฐาน", rate: 0.08, emoji: "⚖️" },
-      { title: "สินค้าวัยรุ่นฮิตติดเทรนด์ TikTok!", desc: "สินค้าที่พอร์ตลงทุนถือหุ้นได้รับความนิยมถล่มทลาย ยอดขายพุ่ง", rate: 0.35, emoji: "🔥" },
-      { title: "สงครามตัดราคา สินค้าล้นตลาด", desc: "คู่แข่งจัดโปรลดแลกแจกแถม ยอดขายหดตัว มีการขาดทุนทางบัญชี", rate: -0.15, emoji: "🌧️" }
+      { title: "เทรนด์ AI & หุ่นยนต์ บูมทั่วโลก!", desc: "บริษัทเทคโนโลยีเปิดตัว AI รุ่นใหม่สุดล้ำ ผลตอบแทนการลงทุนพุ่งทะยาน", rate: 0.30, emoji: "🤖" },
+      { title: "กระแสซีรีส์ & Pop Culture ไทยฮิตระดับโลก", desc: "สื่อบันเทิงและสินค้าไทยได้รับความนิยมสูง ยอดขายและกำไรบริษัทเติบโตก้าวกระโดด", rate: 0.24, emoji: "🌟" },
+      { title: "เทรนด์รักษ์โลก พลังงานสะอาด & รถ EV มาแรง", desc: "รัฐบาลหนุนพลังงานทดแทน พอร์ตลงทุนในนวัตกรรมสีเขียวเติบโตโดดเด่น", rate: 0.18, emoji: "⚡" },
+      { title: "เศรษฐกิจฟื้นตัว ค้าปลีกและการท่องเที่ยวคึกคัก", desc: "ประชาชนจับจ่ายใช้สอย ร้านค้าเต็มทุกห้าง ผลกำไรของภาคธุรกิจเติบโตแข็งแกร่ง", rate: 0.12, emoji: "🛍️" },
+      { title: "สินค้าวัยรุ่นและเครื่องดื่มไวรัลบน TikTok!", desc: "แบรนด์สินค้าในพอร์ตฮิตติดกระแส ยอดสั่งซื้อถล่มทลาย ผลประกอบการทะลุเป้า", rate: 0.20, emoji: "🔥" },
+      { title: "การส่งออกสินค้าเกษตรและไอทีเติบโตดี", desc: "คำสั่งซื้อจากต่างประเทศเข้ามาอย่างต่อเนื่อง ดัชนีการลงทุนขยับขึ้นมั่นคง", rate: 0.08, emoji: "🚢" },
+      { title: "ตลาดหุ้นทรงตัว ดอกเบี้ยนโยบายคงที่", desc: "เศรษฐกิจทรงตัว ไม่มีปัจจัยกระทบ พอร์ตขยายตัวตามเกณฑ์มาตรฐานช้าๆ แต่มั่นคง", rate: 0.05, emoji: "⚖️" },
+      { title: "บริษัทจ่ายเงินปันผลตามนัดสม่ำเสมอ", desc: "หุ้นกลุ่มสาธารณูปโภคและอาหารสร้างกระแสเงินสดดี ได้รับเงินปันผลตามรอบ", rate: 0.06, emoji: "🌾" },
+      { title: "ภาคการท่องเที่ยวซบเซาช่วงฤดูมรสุม", desc: "สภาพอากาศแปรปรวน นักท่องเที่ยวชะลอการเดินทาง ยอดขายกลุ่มบริการลดลงชั่วคราว", rate: -0.08, emoji: "🌧️" },
+      { title: "วิกฤตเงินเฟ้อ ข้าวของและค่าพลังงานแพงขึ้น", desc: "ต้นทุนวัตถุดิบและค่าไฟปรับขึ้น บีบให้อัตรากำไรของบริษัทในตลาดหดตัวลง", rate: -0.12, emoji: "📈" },
+      { title: "สงครามการค้า & การตั้งกำแพงภาษีนำเข้า", desc: "นโยบายกีดกันทางการค้าระหว่างประเทศ ทำให้การค้าโลกสะดุด บรรยากาศลงทุนชะลอตัว", rate: -0.16, emoji: "🛡️" },
+      { title: "ข่าวลือสถาบันการเงินต่างประเทศผันผวน", desc: "นักลงทุนตกใจแห่เทขายสินทรัพย์เสี่ยงเพื่อถือเงินสด ดัชนีหุ้นปรับฐานลงแรง", rate: -0.20, emoji: "📉" },
+      { title: "เศรษฐกิจโลกชะลอตัวเข้าสู่ภาวะหมี (Recession)", desc: "กำลังซื้อทั่วโลกลดลง ตลาดหุ้นเข้าสู่ช่วงปรับฐานครั้งใหญ่ ขาดทุนทางบัญชี", rate: -0.28, emoji: "🌪️" },
+      { title: "สงครามตัดราคา สินค้าแข่งกันลดกระหน่ำ", desc: "เกิดคู่แข่งรายใหม่ทุ่มโปรโมชั่นชิงลูกค้า ส่งผลให้กำไรของบริษัทในตลาดหดตัว", rate: -0.10, emoji: "⚔️" }
     ];
 
     function formatMoney(num) {
@@ -928,7 +956,8 @@
       addInvest: 0,
       totalInterest: 0,
       totalInvestProfit: 0,
-      debtCount: 0
+      debtCount: 0,
+      liquidityFailCount: 0
     };
 
     function selectSoloAvatar(emoji, btn) {
@@ -953,6 +982,7 @@
       soloState.totalInterest = 0;
       soloState.totalInvestProfit = 0;
       soloState.debtCount = 0;
+      soloState.liquidityFailCount = 0;
 
       hideAllScreens();
       document.getElementById('screenStudentGame').classList.remove('hidden');
@@ -1073,8 +1103,8 @@
     }
 
     function resolveSoloEvents() {
-      // 1. Bank Interest (+6%)
-      const interest = Math.round(soloState.savings * 0.06);
+      // 1. Bank Interest (+4%)
+      const interest = Math.round(soloState.savings * 0.04);
       soloState.savings += interest;
       soloState.totalInterest += interest;
       document.getElementById('soloInterestResult').textContent = '+' + formatMoney(interest);
@@ -1094,12 +1124,30 @@
           resEl.innerHTML = `<span class="text-emerald-400">🛡️ หักเงินสดสำรองเรียบร้อย (เหลือเงินสด ${formatMoney(soloState.cash)})</span>`;
           soundCoin();
         } else {
-          const shortage = lifeCard.cost - soloState.cash;
+          let shortage = lifeCard.cost - soloState.cash;
           soloState.cash = 0;
-          soloState.debt += shortage;
-          soloState.debtCount++;
-          resEl.innerHTML = `<span class="text-rose-400 font-bold">🚨 เงินสดไม่พอ! ขาด ${formatMoney(shortage)} ต้องกู้หนี้ดอกเบี้ย 30% ในรอบหน้า!</span>`;
-          soundWarning();
+          soloState.liquidityFailCount = (soloState.liquidityFailCount || 0) + 1;
+
+          let fireSaleMsg = "";
+          if (soloState.invest > 0) {
+            // Cut-loss fire sale at 20% discount (need shortage * 1.25)
+            const neededInvest = Math.round(shortage * 1.25);
+            const sold = Math.min(soloState.invest, neededInvest);
+            soloState.invest -= sold;
+            const proceeds = Math.round(sold * 0.80);
+            shortage = Math.max(0, shortage - proceeds);
+            fireSaleMsg = `<div class="text-amber-300 text-xs mt-1">⚠️ เงินสดไม่พอ! จำใจเทขายหุ้นฉุกเฉินลดราคา 20% ได้เงินสด ${formatMoney(proceeds)} (ตัดขายไป ${formatMoney(sold)})</div>`;
+          }
+
+          if (shortage > 0) {
+            soloState.debt += shortage;
+            soloState.debtCount = (soloState.debtCount || 0) + 1;
+            resEl.innerHTML = `<span class="text-rose-400 font-bold">🚨 เงินไม่พอจ่าย! ต้องกู้หนี้ฉุกเฉิน ${formatMoney(shortage)} (ดอกเบี้ย 30% เทอมถัดไป)</span>${fireSaleMsg}`;
+            soundWarning();
+          } else {
+            resEl.innerHTML = `<span class="text-amber-400 font-bold">⚠️ รอดพ้นหนี้ฉุกเฉินได้ แต่ต้องยอมขายหุ้นตัดขาดทุน!</span>${fireSaleMsg}`;
+            soundWarning();
+          }
         }
       } else {
         const bonus = Math.abs(lifeCard.cost);
@@ -1117,7 +1165,7 @@
       document.getElementById('soloMarketDesc').textContent = marketCard.desc;
 
       const profit = Math.round(soloState.invest * marketCard.rate);
-      soloState.invest += profit;
+      soloState.invest = Math.max(0, soloState.invest + profit);
       soloState.totalInvestProfit += profit;
 
       const mRateEl = document.getElementById('soloMarketRate');
@@ -1149,7 +1197,10 @@
       document.getElementById('screenStudentFinale').classList.remove('hidden');
       document.getElementById('screenStudentFinale').classList.add('flex');
 
-      const net = soloState.cash + soloState.savings + soloState.invest - soloState.debt;
+      const hasBonus = (soloState.liquidityFailCount || 0) === 0;
+      const disciplineBonus = hasBonus ? 800 : 0;
+      const net = soloState.cash + soloState.savings + soloState.invest - soloState.debt + disciplineBonus;
+
       document.getElementById('soloFinaleName').textContent = soloState.name;
       document.getElementById('soloFinalNetWorth').textContent = formatMoney(net);
       document.getElementById('soloFinalCash').textContent = formatMoney(soloState.cash);
@@ -1157,15 +1208,31 @@
       document.getElementById('soloFinalInvest').textContent = formatMoney(soloState.invest);
       document.getElementById('soloFinalInterestSum').textContent = '+' + formatMoney(soloState.totalInterest);
       document.getElementById('soloFinalInvestProfitSum').textContent = (soloState.totalInvestProfit >= 0 ? '+' : '') + formatMoney(soloState.totalInvestProfit);
-      document.getElementById('soloFinalDebtCount').textContent = `${soloState.debtCount} ครั้ง`;
+      document.getElementById('soloFinalDebtCount').textContent = `${soloState.liquidityFailCount || 0} ครั้ง`;
+
+      const bonusRow = document.getElementById('soloDisciplineBonusRow');
+      const bonusVal = document.getElementById('soloFinalDisciplineBonus');
+      if (bonusRow && bonusVal) {
+        if (hasBonus) {
+          bonusRow.className = "flex justify-between items-center py-1.5 px-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold";
+          bonusRow.firstElementChild.innerHTML = `🏅 โบนัสวินัยการเงิน (สภาพคล่องสมบูรณ์):`;
+          bonusVal.textContent = "+฿800";
+          bonusVal.className = "text-emerald-400 font-bold";
+        } else {
+          bonusRow.className = "flex justify-between items-center py-1.5 px-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 text-xs";
+          bonusRow.firstElementChild.innerHTML = `⚠️ โบนัสวินัยการเงิน (ขาดสภาพคล่อง ${soloState.liquidityFailCount} ครั้ง):`;
+          bonusVal.textContent = "+฿0";
+          bonusVal.className = "text-slate-500 font-bold";
+        }
+      }
 
       let title = "ยอดนักจัดสรรพอร์ตสมดุล";
       let desc = "ยอดเยี่ยมมาก! คุณเดินสายกลาง มีเงินสำรองฉุกเฉินครบ มีเงินฝากทบต้นปลอดภัย และมีการลงทุนเพื่อสร้างความมั่งคั่ง เป็นโมเดลทางการเงินในฝัน!";
       let emoji = "⚖️";
 
-      if (soloState.debtCount >= 2) {
+      if ((soloState.liquidityFailCount || 0) >= 2) {
         title = "นักเสี่ยงดวงเฉียดล้มละลาย";
-        desc = "คุณไม่ค่อยสำรองเงินสดไว้เลย เมื่อชีวิตโยนวิกฤตเข้ามาจึงต้องกู้หนี้ฉุกเฉินตลอดเวลา บทเรียนสำคัญคือ 'สภาพคล่อง' สำคัญไม่แพ้ผลกำไร!";
+        desc = "คุณไม่ค่อยสำรองเงินสดไว้เลย เมื่อชีวิตโยนวิกฤตเข้ามาจึงต้องยอมขายหุ้นขาดทุนหรือกู้หนี้ฉุกเฉิน บทเรียนสำคัญคือ 'สภาพคล่อง' สำคัญไม่แพ้ผลกำไร!";
         emoji = "🎢";
       } else if (soloState.savings >= soloState.invest * 2) {
         title = "จอมวางแผนรอบคอบ (สายปลอดภัย)";
@@ -1268,7 +1335,8 @@
           addInvest: 0,
           totalInterest: 0,
           totalInvestProfit: 0,
-          debtCount: 0
+          debtCount: 0,
+          liquidityFailCount: 0
         });
       }
 
@@ -1494,7 +1562,7 @@
     function applyTeacherEventsAndShowLeaderboard() {
       teacherTeams.forEach(t => {
         let msg = [];
-        const interest = Math.round(t.savings * 0.06);
+        const interest = Math.round(t.savings * 0.04);
         t.savings += interest;
         t.totalInterest += interest;
         if (interest > 0) msg.push(`🏦 ดอกเบี้ย +${formatMoney(interest)}`);
@@ -1504,11 +1572,27 @@
             t.cash -= teacherLifeCard.cost;
             msg.push(`🛡️ จ่ายทัน (-${formatMoney(teacherLifeCard.cost)})`);
           } else {
-            const short = teacherLifeCard.cost - t.cash;
+            let shortage = teacherLifeCard.cost - t.cash;
             t.cash = 0;
-            t.debt += short;
-            t.debtCount++;
-            msg.push(`🚨 ขาด ${formatMoney(short)} (หนี้ 30%)`);
+            t.liquidityFailCount = (t.liquidityFailCount || 0) + 1;
+
+            let soldMsg = "";
+            if (t.investments > 0) {
+              const neededInvest = Math.round(shortage * 1.25);
+              const sold = Math.min(t.investments, neededInvest);
+              t.investments -= sold;
+              const proceeds = Math.round(sold * 0.80);
+              shortage = Math.max(0, shortage - proceeds);
+              soldMsg = ` (ขายหุ้นได้ ${formatMoney(proceeds)})`;
+            }
+
+            if (shortage > 0) {
+              t.debt += shortage;
+              t.debtCount = (t.debtCount || 0) + 1;
+              msg.push(`🚨 หนี้ฉุกเฉิน ${formatMoney(shortage)}${soldMsg}`);
+            } else {
+              msg.push(`⚠️ เงินสดหมด จำใจขายหุ้นขาดทุน${soldMsg}`);
+            }
           }
         } else {
           const bonus = Math.abs(teacherLifeCard.cost);
@@ -1517,7 +1601,7 @@
         }
 
         const profit = Math.round(t.investments * teacherMarketCard.rate);
-        t.investments += profit;
+        t.investments = Math.max(0, t.investments + profit);
         t.totalInvestProfit += profit;
         if (profit >= 0) msg.push(`📈 กำไร +${formatMoney(profit)}`);
         else msg.push(`📉 ขาดทุน ${formatMoney(profit)}`);
@@ -1579,16 +1663,16 @@
       document.getElementById('screenTeacherFinale').classList.remove('hidden');
       document.getElementById('screenTeacherFinale').classList.add('flex');
 
-      const sorted = [...teacherTeams].sort((a, b) => {
-        const netA = a.cash + a.savings + a.investments - a.debt;
-        const netB = b.cash + b.savings + b.investments - b.debt;
-        return netB - netA;
-      });
+      const sorted = [...teacherTeams].map(t => {
+        const hasBonus = (t.liquidityFailCount || 0) === 0;
+        const bonus = hasBonus ? 800 : 0;
+        const finalNet = t.cash + t.savings + t.investments - t.debt + bonus;
+        return { ...t, finalNet, hasBonus, bonus };
+      }).sort((a, b) => b.finalNet - a.finalNet);
 
       const podEl = document.getElementById('teacherPodiumContainer');
       podEl.innerHTML = '';
       sorted.slice(0, 3).forEach((t, idx) => {
-        const net = t.cash + t.savings + t.investments - t.debt;
         const title = idx === 0 ? "🏆 แชมป์เศรษฐีวัยรุ่น" : idx === 1 ? "🥈 รองอันดับ 1" : "🥉 รองอันดับ 2";
         const glow = idx === 0 ? "gold-glow border-amber-400" : "border-slate-800";
         const card = document.createElement('div');
@@ -1598,10 +1682,11 @@
             <div class="text-[10px] font-bold text-amber-400 uppercase mb-1">${title}</div>
             <div class="text-4xl mb-1">${t.avatar}</div>
             <h4 class="font-extrabold text-white text-base mb-1">${t.name}</h4>
-            <div class="text-xl font-black text-amber-300 mb-2">${formatMoney(net)}</div>
+            <div class="text-xl font-black text-amber-300 mb-1">${formatMoney(t.finalNet)}</div>
+            ${t.hasBonus ? `<div class="inline-block text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold mb-2">🏅 โบนัสวินัยการเงิน +฿800</div>` : `<div class="text-[10px] text-slate-500 mb-2">ขาดสภาพคล่อง ${t.liquidityFailCount} ครั้ง</div>`}
           </div>
           <div class="text-[10px] text-slate-400 border-t border-slate-800 pt-2">
-            ดอกเบี้ย: <span class="text-sky-300">+${formatMoney(t.totalInterest)}</span> | กำไรหุ้น: <span class="${t.totalInvestProfit >= 0 ? 'text-emerald-300' : 'text-rose-300'}">${formatMoney(t.totalInvestProfit)}</span>
+            ดอกเบี้ย: <span class="text-sky-300">+${formatMoney(t.totalInterest)}</span> | หุ้น: <span class="${t.totalInvestProfit >= 0 ? 'text-emerald-300' : 'text-rose-300'}">${formatMoney(t.totalInvestProfit)}</span>
           </div>
         `;
         podEl.appendChild(card);
@@ -1617,15 +1702,17 @@
         `;
         sorted.slice(3).forEach((t, idx) => {
           const rank = idx + 4;
-          const net = t.cash + t.savings + t.investments - t.debt;
           html += `
             <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs">
               <div class="flex items-center gap-2 truncate">
                 <span class="font-bold text-slate-500 w-6">#${rank}</span>
                 <span class="text-lg">${t.avatar}</span>
-                <span class="text-white truncate font-medium">${t.name}</span>
+                <div class="truncate">
+                  <span class="text-white truncate font-medium block">${t.name}</span>
+                  ${t.hasBonus ? `<span class="text-[9px] text-emerald-400">🏅 โบนัส +฿800</span>` : ''}
+                </div>
               </div>
-              <span class="font-bold text-amber-400 ml-2 whitespace-nowrap">${formatMoney(net)}</span>
+              <span class="font-bold text-amber-400 ml-2 whitespace-nowrap">${formatMoney(t.finalNet)}</span>
             </div>
           `;
         });
