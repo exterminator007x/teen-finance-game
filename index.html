@@ -359,24 +359,37 @@
           </div>
 
           <!-- Market Event Card -->
-          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-950/80 px-2.5 py-0.5 rounded border border-purple-800">ตลาดการลงทุน</span>
-              <span id="soloMarketEmoji" class="text-3xl">📈</span>
+          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-950/80 px-2.5 py-0.5 rounded border border-purple-800">ตลาดเศรษฐกิจ & เงินฝาก</span>
+                <span id="soloMarketEmoji" class="text-3xl">📈</span>
+              </div>
+              <h4 id="soloMarketTitle" class="font-bold text-base text-white mb-1">AI บูมสนั่น!</h4>
+              <p id="soloMarketDesc" class="text-xs text-slate-300 mb-3 leading-relaxed">ธุรกิจดิจิทัลโตพรวดพราด พอร์ตขยายตัว</p>
             </div>
-            <h4 id="soloMarketTitle" class="font-bold text-base text-white mb-1">AI บูมสนั่น!</h4>
-            <p id="soloMarketDesc" class="text-xs text-slate-300 mb-3 leading-relaxed">ธุรกิจดิจิทัลโตพรวดพราด พอร์ตขยายตัว</p>
-            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between text-xs font-bold">
-              <span class="text-slate-400">ผลตอบแทนพอร์ต:</span>
-              <span id="soloMarketRate" class="text-emerald-400">+35%</span>
+            <div>
+              <div class="space-y-1.5">
+                <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center text-xs font-bold">
+                  <span class="text-slate-400">ผลตอบแทนพอร์ตลงทุน:</span>
+                  <span id="soloMarketRate" class="text-emerald-400">+30%</span>
+                </div>
+                <div id="soloMarketBankRateRow" class="hidden p-2.5 bg-sky-950/40 rounded-xl border border-sky-800/40 flex justify-between items-center text-xs font-bold">
+                  <span class="text-sky-300">🏦 ผลกระทบดอกเบี้ยเงินฝาก:</span>
+                  <span id="soloMarketBankRate" class="text-amber-400 font-bold">+7%</span>
+                </div>
+              </div>
+              <div id="soloMarketResolution" class="text-xs mt-2"></div>
             </div>
-            <div id="soloMarketResolution" class="text-xs mt-2"></div>
           </div>
         </div>
 
         <div class="p-3.5 bg-sky-950/40 rounded-xl border border-sky-800/40 flex items-center justify-between text-xs">
-          <span class="text-sky-300">🏦 ดอกเบี้ยทบต้นจากเงินฝากธนาคาร (+4%):</span>
-          <span id="soloInterestResult" class="font-bold text-sky-400">+฿0</span>
+          <div>
+            <span class="text-sky-300 block font-medium">🏦 ดอกเบี้ยทบต้นจากเงินฝากธนาคาร:</span>
+            <span id="soloInterestRateDesc" class="text-[11px] text-slate-400">อัตราปกติ +4% ทบต้น</span>
+          </div>
+          <span id="soloInterestResult" class="font-bold text-sky-400 text-sm sm:text-base">+฿0</span>
         </div>
 
         <button onclick="nextSoloRound()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95">
@@ -537,16 +550,24 @@
             </div>
           </div>
 
-          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="text-[11px] font-bold text-purple-400 uppercase bg-purple-950/80 px-2 py-0.5 rounded border border-purple-800">ตลาดการลงทุน</span>
-              <span id="teacherDramaMarketEmoji" class="text-3xl">📈</span>
+          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[11px] font-bold text-purple-400 uppercase bg-purple-950/80 px-2 py-0.5 rounded border border-purple-800">ตลาดเศรษฐกิจ & เงินฝาก</span>
+                <span id="teacherDramaMarketEmoji" class="text-3xl">📈</span>
+              </div>
+              <h4 id="teacherDramaMarketTitle" class="font-bold text-white text-base mb-1">AI บูมทั่วโลก!</h4>
+              <p id="teacherDramaMarketDesc" class="text-xs text-slate-300 leading-relaxed mb-3">เทคโนโลยีดิจิทัลทำกำไรร้อนแรง</p>
             </div>
-            <h4 id="teacherDramaMarketTitle" class="font-bold text-white text-base mb-1">AI บูมทั่วโลก!</h4>
-            <p id="teacherDramaMarketDesc" class="text-xs text-slate-300 leading-relaxed mb-3">เทคโนโลยีดิจิทัลทำกำไรร้อนแรง</p>
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 text-xs font-semibold">
-              <span class="text-slate-400">ผลตอบแทน:</span>
-              <span id="teacherDramaMarketRate" class="text-emerald-400 font-bold">+35%</span>
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900 text-xs font-semibold">
+                <span class="text-slate-400">พอร์ตลงทุน:</span>
+                <span id="teacherDramaMarketRate" class="text-emerald-400 font-bold">+35%</span>
+              </div>
+              <div id="teacherDramaBankRateRow" class="hidden flex items-center justify-between p-2 rounded-xl bg-sky-950/40 border border-sky-800/40 text-xs font-semibold">
+                <span class="text-sky-300">🏦 ดอกเบี้ยเงินฝากเทอมนี้:</span>
+                <span id="teacherDramaBankRate" class="text-amber-400 font-bold">+7%</span>
+              </div>
             </div>
           </div>
         </div>
@@ -873,25 +894,32 @@
       { title: "โครงงานวิทย์คว้ารางวัลชนะเลิศ", desc: "โครงงานสิ่งประดิษฐ์รีไซเคิลของกลุ่มชนะระดับเขต ได้เงินรางวัลทุนการศึกษามาแบ่งกัน!", cost: -1000, emoji: "🥇" },
       { title: "รับจ้างวาดรูปการ์ตูน/สติ๊กเกอร์ขาย", desc: "ใช้เวลาว่างวาดรูปโปรไฟล์และออกแบบของที่ระลึก มีคนมาสั่งจ้างเพียบ ได้เงินเข้ากระเป๋า!", cost: -700, emoji: "🎨" },
       { title: "โชคดี! ถูกรางวัลสลากออมสินเลขท้าย", desc: "ครอบครัวซื้อสลากออมสินไว้ งวดนี้ถูกรางวัลเลขท้าย 3 ตัว ได้ส่วนแบ่งโบนัสก้อนโต!", cost: -800, emoji: "🎉" },
+      { title: "ธนาคารแจกโบนัสคนออมสม่ำเสมอ!", desc: "ธนาคารมอบเงินขวัญถุงพิเศษสำหรับเยาวชนที่มีวินัยฝากเงินเข้าบัญชี ได้เงินโบนัสเข้ากระเป๋า!", cost: -500, emoji: "🏦" },
+      { title: "แข่งตอบปัญหาวิชาการออมเงิน ได้ที่ 1", desc: "ชนะการประกวดความรู้เรื่องการออมเงินและดอกเบี้ยทบต้นระดับเขต ได้รับทุนการศึกษาพิเศษ!", cost: -900, emoji: "🏆" },
       { title: "ขายเสื้อผ้ามือสองและของสะสมในตลาดนัด", desc: "รื้อของเล่นและเสื้อผ้าเก่าสภาพดีไปตั้งแผงขายในงานโรงเรียน ขายดีเกลี้ยงแผง!", cost: -600, emoji: "👕" },
       { title: "ช่วยอาจารย์จัดค่ายวิชาการช่วงปิดเทอม", desc: "เป็นพี่เลี้ยงช่วยดูแลน้อง ม.1 ในค่ายวิทยาศาสตร์ ได้รับเงินค่าตอบแทนก้อนโต!", cost: -1200, emoji: "📚" }
     ];
 
     const MARKET_CARDS_POOL = [
-      { title: "เทรนด์ AI & หุ่นยนต์ บูมทั่วโลก!", desc: "บริษัทเทคโนโลยีเปิดตัว AI รุ่นใหม่สุดล้ำ ผลตอบแทนการลงทุนพุ่งทะยาน", rate: 0.30, emoji: "🤖" },
-      { title: "กระแสซีรีส์ & Pop Culture ไทยฮิตระดับโลก", desc: "สื่อบันเทิงและสินค้าไทยได้รับความนิยมสูง ยอดขายและกำไรบริษัทเติบโตก้าวกระโดด", rate: 0.24, emoji: "🌟" },
-      { title: "เทรนด์รักษ์โลก พลังงานสะอาด & รถ EV มาแรง", desc: "รัฐบาลหนุนพลังงานทดแทน พอร์ตลงทุนในนวัตกรรมสีเขียวเติบโตโดดเด่น", rate: 0.18, emoji: "⚡" },
-      { title: "เศรษฐกิจฟื้นตัว ค้าปลีกและการท่องเที่ยวคึกคัก", desc: "ประชาชนจับจ่ายใช้สอย ร้านค้าเต็มทุกห้าง ผลกำไรของภาคธุรกิจเติบโตแข็งแกร่ง", rate: 0.12, emoji: "🛍️" },
-      { title: "สินค้าวัยรุ่นและเครื่องดื่มไวรัลบน TikTok!", desc: "แบรนด์สินค้าในพอร์ตฮิตติดกระแส ยอดสั่งซื้อถล่มทลาย ผลประกอบการทะลุเป้า", rate: 0.20, emoji: "🔥" },
-      { title: "การส่งออกสินค้าเกษตรและไอทีเติบโตดี", desc: "คำสั่งซื้อจากต่างประเทศเข้ามาอย่างต่อเนื่อง ดัชนีการลงทุนขยับขึ้นมั่นคง", rate: 0.08, emoji: "🚢" },
-      { title: "ตลาดหุ้นทรงตัว ดอกเบี้ยนโยบายคงที่", desc: "เศรษฐกิจทรงตัว ไม่มีปัจจัยกระทบ พอร์ตขยายตัวตามเกณฑ์มาตรฐานช้าๆ แต่มั่นคง", rate: 0.05, emoji: "⚖️" },
-      { title: "บริษัทจ่ายเงินปันผลตามนัดสม่ำเสมอ", desc: "หุ้นกลุ่มสาธารณูปโภคและอาหารสร้างกระแสเงินสดดี ได้รับเงินปันผลตามรอบ", rate: 0.06, emoji: "🌾" },
-      { title: "ภาคการท่องเที่ยวซบเซาช่วงฤดูมรสุม", desc: "สภาพอากาศแปรปรวน นักท่องเที่ยวชะลอการเดินทาง ยอดขายกลุ่มบริการลดลงชั่วคราว", rate: -0.08, emoji: "🌧️" },
-      { title: "วิกฤตเงินเฟ้อ ข้าวของและค่าพลังงานแพงขึ้น", desc: "ต้นทุนวัตถุดิบและค่าไฟปรับขึ้น บีบให้อัตรากำไรของบริษัทในตลาดหดตัวลง", rate: -0.12, emoji: "📈" },
-      { title: "สงครามการค้า & การตั้งกำแพงภาษีนำเข้า", desc: "นโยบายกีดกันทางการค้าระหว่างประเทศ ทำให้การค้าโลกสะดุด บรรยากาศลงทุนชะลอตัว", rate: -0.16, emoji: "🛡️" },
-      { title: "ข่าวลือสถาบันการเงินต่างประเทศผันผวน", desc: "นักลงทุนตกใจแห่เทขายสินทรัพย์เสี่ยงเพื่อถือเงินสด ดัชนีหุ้นปรับฐานลงแรง", rate: -0.20, emoji: "📉" },
-      { title: "เศรษฐกิจโลกชะลอตัวเข้าสู่ภาวะหมี (Recession)", desc: "กำลังซื้อทั่วโลกลดลง ตลาดหุ้นเข้าสู่ช่วงปรับฐานครั้งใหญ่ ขาดทุนทางบัญชี", rate: -0.28, emoji: "🌪️" },
-      { title: "สงครามตัดราคา สินค้าแข่งกันลดกระหน่ำ", desc: "เกิดคู่แข่งรายใหม่ทุ่มโปรโมชั่นชิงลูกค้า ส่งผลให้กำไรของบริษัทในตลาดหดตัว", rate: -0.10, emoji: "⚔️" }
+      { title: "ธนาคารกลางประกาศขึ้นดอกเบี้ยนโยบาย!", desc: "เพื่อสกัดเงินเฟ้อ ธนาคารกลางปรับขึ้นดอกเบี้ย ดอกเบี้ยเงินฝากพุ่งขึ้นเป็น 7% แต่ต้นทุนกู้ยืมสูงขึ้น ตลาดหุ้นชะลอตัว", rate: -0.10, bankRate: 0.07, bankBadge: "พุ่งขึ้นเป็น +7%", emoji: "🏦" },
+      { title: "แคมเปญ E-Savings ดอกเบี้ยสูงเพื่อเยาวชน!", desc: "ธนาคารพาณิชย์เปิดตัวบัญชีเงินฝากดิจิทัลสำหรับนักเรียน ให้ดอกเบี้ยพิเศษพุ่งแรง ดอกเบี้ยเงินฝากงวดนี้งอกเงยเต็มที่", rate: 0.05, bankRate: 0.065, bankBadge: "โบนัสพิเศษ +6.5%", emoji: "📱" },
+      { title: "ธนาคารกลางปรับลดดอกเบี้ยกระตุ้นเศรษฐกิจ", desc: "ลดดอกเบี้ยนโยบายเพื่อหนุนการค้าขาย ธุรกิจคึกคักตลาดหุ้นพุ่งทะยาน แต่ดอกเบี้ยเงินฝากลดลงเหลือ 2%", rate: 0.22, bankRate: 0.02, bankBadge: "ปรับลดเหลือ +2%", emoji: "💸" },
+      { title: "สลากออมทรัพย์เพื่อการศึกษาออกรางวัลงวดใหญ่!", desc: "สถาบันการเงินรัฐบาลออกแคมเปญสลากออมทรัพย์ มอบผลตอบแทนและสิทธิลุ้นรางวัลพิเศษสำหรับบัญชีเงินฝากเยาวชน", rate: 0.06, bankRate: 0.08, bankBadge: "พุ่งสูง +8% งวดพิเศษ!", emoji: "🎟️" },
+      { title: "วิกฤตเศรษฐกิจผันผวน เงินฝากคือหลุมหลบภัย!", desc: "ตลาดหุ้นทั่วโลกผันผวนรุนแรงจากความไม่สงบ นักลงทุนหนีเข้าซบเงินฝากธนาคารที่ปลอดภัย 100%", rate: -0.22, bankRate: 0.05, bankBadge: "ปลอดภัย +5% สวนตลาด!", emoji: "🛡️" },
+      { title: "เทรนด์ AI & หุ่นยนต์ บูมทั่วโลก!", desc: "บริษัทเทคโนโลยีเปิดตัว AI รุ่นใหม่สุดล้ำ ผลตอบแทนการลงทุนพุ่งทะยาน", rate: 0.30, bankRate: 0.04, emoji: "🤖" },
+      { title: "กระแสซีรีส์ & Pop Culture ไทยฮิตระดับโลก", desc: "สื่อบันเทิงและสินค้าไทยได้รับความนิยมสูง ยอดขายและกำไรบริษัทเติบโตก้าวกระโดด", rate: 0.24, bankRate: 0.04, emoji: "🌟" },
+      { title: "เทรนด์รักษ์โลก พลังงานสะอาด & รถ EV มาแรง", desc: "รัฐบาลหนุนพลังงานทดแทน พอร์ตลงทุนในนวัตกรรมสีเขียวเติบโตโดดเด่น", rate: 0.18, bankRate: 0.04, emoji: "⚡" },
+      { title: "เศรษฐกิจฟื้นตัว ค้าปลีกและการท่องเที่ยวคึกคัก", desc: "ประชาชนจับจ่ายใช้สอย ร้านค้าเต็มทุกห้าง ผลกำไรของภาคธุรกิจเติบโตแข็งแกร่ง", rate: 0.12, bankRate: 0.04, emoji: "🛍️" },
+      { title: "สินค้าวัยรุ่นและเครื่องดื่มไวรัลบน TikTok!", desc: "แบรนด์สินค้าในพอร์ตฮิตติดกระแส ยอดสั่งซื้อถล่มทลาย ผลประกอบการทะลุเป้า", rate: 0.20, bankRate: 0.04, emoji: "🔥" },
+      { title: "การส่งออกสินค้าเกษตรและไอทีเติบโตดี", desc: "คำสั่งซื้อจากต่างประเทศเข้ามาอย่างต่อเนื่อง ดัชนีการลงทุนขยับขึ้นมั่นคง", rate: 0.08, bankRate: 0.04, emoji: "🚢" },
+      { title: "ตลาดหุ้นทรงตัว ดอกเบี้ยนโยบายคงที่", desc: "เศรษฐกิจทรงตัว ไม่มีปัจจัยกระทบ พอร์ตขยายตัวตามเกณฑ์มาตรฐานช้าๆ แต่มั่นคง", rate: 0.05, bankRate: 0.04, emoji: "⚖️" },
+      { title: "บริษัทจ่ายเงินปันผลตามนัดสม่ำเสมอ", desc: "หุ้นกลุ่มสาธารณูปโภคและอาหารสร้างกระแสเงินสดดี ได้รับเงินปันผลตามรอบ", rate: 0.06, bankRate: 0.04, emoji: "🌾" },
+      { title: "ภาคการท่องเที่ยวซบเซาช่วงฤดูมรสุม", desc: "สภาพอากาศแปรปรวน นักท่องเที่ยวชะลอการเดินทาง ยอดขายกลุ่มบริการลดลงชั่วคราว", rate: -0.08, bankRate: 0.04, emoji: "🌧️" },
+      { title: "วิกฤตเงินเฟ้อ ข้าวของและค่าพลังงานแพงขึ้น", desc: "ต้นทุนวัตถุดิบและค่าไฟปรับขึ้น บีบให้อัตรากำไรของบริษัทในตลาดหดตัวลง", rate: -0.12, bankRate: 0.04, emoji: "📈" },
+      { title: "สงครามการค้า & การตั้งกำแพงภาษีนำเข้า", desc: "นโยบายกีดกันทางการค้าระหว่างประเทศ ทำให้การค้าโลกสะดุด บรรยากาศลงทุนชะลอตัว", rate: -0.16, bankRate: 0.04, emoji: "🛡️" },
+      { title: "ข่าวลือสถาบันการเงินต่างประเทศผันผวน", desc: "นักลงทุนตกใจแห่เทขายสินทรัพย์เสี่ยงเพื่อถือเงินสด ดัชนีหุ้นปรับฐานลงแรง", rate: -0.20, bankRate: 0.04, emoji: "📉" },
+      { title: "เศรษฐกิจโลกชะลอตัวเข้าสู่ภาวะหมี (Recession)", desc: "กำลังซื้อทั่วโลกลดลง ตลาดหุ้นเข้าสู่ช่วงปรับฐานครั้งใหญ่ ขาดทุนทางบัญชี", rate: -0.28, bankRate: 0.04, emoji: "🌪️" },
+      { title: "สงครามตัดราคา สินค้าแข่งกันลดกระหน่ำ", desc: "เกิดคู่แข่งรายใหม่ทุ่มโปรโมชั่นชิงลูกค้า ส่งผลให้กำไรของบริษัทในตลาดหดตัว", rate: -0.10, bankRate: 0.04, emoji: "⚔️" }
     ];
 
     function formatMoney(num) {
@@ -1103,13 +1131,7 @@
     }
 
     function resolveSoloEvents() {
-      // 1. Bank Interest (+4%)
-      const interest = Math.round(soloState.savings * 0.04);
-      soloState.savings += interest;
-      soloState.totalInterest += interest;
-      document.getElementById('soloInterestResult').textContent = '+' + formatMoney(interest);
-
-      // 2. Life Event
+      // 1. Life Event
       const lifeCard = LIFE_CARDS_POOL[Math.floor(Math.random() * LIFE_CARDS_POOL.length)];
       document.getElementById('soloLifeEmoji').textContent = lifeCard.emoji;
       document.getElementById('soloLifeTitle').textContent = lifeCard.title;
@@ -1158,7 +1180,7 @@
         soundCoin();
       }
 
-      // 3. Market Event
+      // 2. Market & Economy Event
       const marketCard = MARKET_CARDS_POOL[Math.floor(Math.random() * MARKET_CARDS_POOL.length)];
       document.getElementById('soloMarketEmoji').textContent = marketCard.emoji;
       document.getElementById('soloMarketTitle').textContent = marketCard.title;
@@ -1178,6 +1200,35 @@
         mRateEl.textContent = `${Math.round(marketCard.rate * 100)}% (${formatMoney(profit)})`;
         mRateEl.className = 'text-rose-400 font-bold';
         mResEl.innerHTML = `<span class="text-rose-300">📉 พอร์ตลดลงเหลือ ${formatMoney(soloState.invest)}</span>`;
+      }
+
+      // 3. Bank Interest (Dynamic based on Market/Macro rate)
+      const currentBankRate = marketCard.bankRate || 0.04;
+      const bankRow = document.getElementById('soloMarketBankRateRow');
+      const bankRateDisplay = document.getElementById('soloMarketBankRate');
+      if (marketCard.bankBadge) {
+        if (bankRow && bankRateDisplay) {
+          bankRow.classList.remove('hidden');
+          bankRateDisplay.textContent = marketCard.bankBadge;
+        }
+      } else {
+        if (bankRow) bankRow.classList.add('hidden');
+      }
+
+      const interest = Math.round(soloState.savings * currentBankRate);
+      soloState.savings += interest;
+      soloState.totalInterest += interest;
+      document.getElementById('soloInterestResult').textContent = '+' + formatMoney(interest);
+
+      const interestRateDesc = document.getElementById('soloInterestRateDesc');
+      if (interestRateDesc) {
+        if (currentBankRate !== 0.04) {
+          interestRateDesc.textContent = `เทอมนี้ได้รับดอกเบี้ยพิเศษ +${Math.round(currentBankRate * 1000) / 10}% ทบต้น (${marketCard.title})`;
+          interestRateDesc.className = "text-[11px] text-amber-300 font-semibold";
+        } else {
+          interestRateDesc.textContent = "อัตราดอกเบี้ยปกติ +4% ทบต้น";
+          interestRateDesc.className = "text-[11px] text-slate-400";
+        }
       }
 
       updateSoloUI();
@@ -1552,6 +1603,17 @@
       document.getElementById('teacherDramaMarketRate').textContent = (teacherMarketCard.rate > 0 ? '+' : '') + Math.round(teacherMarketCard.rate * 100) + '%';
       document.getElementById('teacherDramaMarketRate').className = teacherMarketCard.rate >= 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold';
 
+      const dramaBankRow = document.getElementById('teacherDramaBankRateRow');
+      const dramaBankRate = document.getElementById('teacherDramaBankRate');
+      if (teacherMarketCard.bankBadge) {
+        if (dramaBankRow && dramaBankRate) {
+          dramaBankRow.classList.remove('hidden');
+          dramaBankRate.textContent = teacherMarketCard.bankBadge;
+        }
+      } else {
+        if (dramaBankRow) dramaBankRow.classList.add('hidden');
+      }
+
       document.getElementById('teacherDramaOverlay').classList.remove('hidden');
       document.getElementById('teacherDramaOverlay').scrollIntoView({ behavior: 'smooth' });
 
@@ -1560,12 +1622,19 @@
     }
 
     function applyTeacherEventsAndShowLeaderboard() {
+      const currentBankRate = teacherMarketCard.bankRate || 0.04;
       teacherTeams.forEach(t => {
         let msg = [];
-        const interest = Math.round(t.savings * 0.04);
+        const interest = Math.round(t.savings * currentBankRate);
         t.savings += interest;
         t.totalInterest += interest;
-        if (interest > 0) msg.push(`🏦 ดอกเบี้ย +${formatMoney(interest)}`);
+        if (interest > 0) {
+          if (currentBankRate !== 0.04) {
+            msg.push(`🏦 ดอกเบี้ยพิเศษ (+${Math.round(currentBankRate * 1000) / 10}%) +${formatMoney(interest)}`);
+          } else {
+            msg.push(`🏦 ดอกเบี้ย (+4%) +${formatMoney(interest)}`);
+          }
+        }
 
         if (teacherLifeCard.cost > 0) {
           if (t.cash >= teacherLifeCard.cost) {
