@@ -459,25 +459,34 @@
     <!-- ======================================================== -->
 
     <!-- B1: Teacher Setup Screen -->
-    <section id="screenTeacherSetup" class="hidden my-auto py-8 max-w-2xl mx-auto w-full text-center">
+    <section id="screenTeacherSetup" class="hidden my-auto py-8 max-w-3xl mx-auto w-full text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-xs font-semibold mb-3">
         🎓 โหมดคุณครูผู้ดำเนินเกม (Game Master) ฉายขึ้นจอใหญ่
       </div>
       <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">ตั้งค่ากลุ่มนักเรียนในห้อง</h2>
-      <p class="text-slate-400 text-xs sm:text-sm mb-6">แบ่งนักเรียนเป็นกลุ่ม (กลุ่มละ 3–5 คน) เลือกจำนวนกลุ่มเพื่อเริ่มการแข่งขัน 6 เทอม</p>
+      <p class="text-slate-400 text-xs sm:text-sm mb-6">แบ่งนักเรียนเป็นกลุ่ม (กลุ่มละ 3–5 คน) เลือกรองรับได้ตั้งแต่ 2 ถึง 12 กลุ่ม สำหรับห้องเรียนขนาดใหญ่</p>
 
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl text-left">
-        <label class="block text-xs font-bold text-slate-200 mb-2">👥 เลือกจำนวนกลุ่ม:</label>
-        <div class="grid grid-cols-5 gap-2 mb-5">
-          <button type="button" onclick="setTeacherTeamCount(2)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">2 กลุ่ม</button>
-          <button type="button" onclick="setTeacherTeamCount(3)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">3 กลุ่ม</button>
-          <button type="button" onclick="setTeacherTeamCount(4)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-amber-400 text-amber-400">4 กลุ่ม</button>
-          <button type="button" onclick="setTeacherTeamCount(5)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">5 กลุ่ม</button>
-          <button type="button" onclick="setTeacherTeamCount(6)" class="teacher-team-btn py-2.5 rounded-xl bg-slate-800 font-bold text-sm border-2 border-transparent">6 กลุ่ม</button>
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-xs font-bold text-slate-200">👥 เลือกจำนวนกลุ่ม (2 – 12 กลุ่ม):</label>
+          <span class="text-xs text-amber-400 font-bold" id="teacherTeamCountBadge">4 กลุ่ม</span>
+        </div>
+        <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-11 gap-1.5 sm:gap-2 mb-5">
+          <button type="button" onclick="setTeacherTeamCount(2)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">2</button>
+          <button type="button" onclick="setTeacherTeamCount(3)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">3</button>
+          <button type="button" onclick="setTeacherTeamCount(4)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-amber-400 text-amber-400 transition">4</button>
+          <button type="button" onclick="setTeacherTeamCount(5)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">5</button>
+          <button type="button" onclick="setTeacherTeamCount(6)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">6</button>
+          <button type="button" onclick="setTeacherTeamCount(7)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">7</button>
+          <button type="button" onclick="setTeacherTeamCount(8)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">8</button>
+          <button type="button" onclick="setTeacherTeamCount(9)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">9</button>
+          <button type="button" onclick="setTeacherTeamCount(10)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">10</button>
+          <button type="button" onclick="setTeacherTeamCount(11)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">11</button>
+          <button type="button" onclick="setTeacherTeamCount(12)" class="teacher-team-btn py-2 sm:py-2.5 rounded-xl bg-slate-800 font-bold text-xs sm:text-sm border-2 border-transparent transition">12</button>
         </div>
 
-        <label class="block text-xs font-bold text-slate-200 mb-2">🏷️ ชื่อทีมของแต่ละกลุ่ม:</label>
-        <div id="teacherTeamInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6"></div>
+        <label class="block text-xs font-bold text-slate-200 mb-2">🏷️ รายชื่อกลุ่ม (แก้ไขชื่อได้ตามใจชอบ):</label>
+        <div id="teacherTeamInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mb-6 max-h-[340px] overflow-y-auto p-1 pr-2"></div>
 
         <button onclick="startTeacherGame()" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-black text-base shadow-xl transition active:scale-95">
           🚀 คุณครูคลิกเพื่อเริ่มต้นเทอมที่ 1
@@ -557,7 +566,7 @@
             ไปต่อยังเทอมถัดไป ➔
           </button>
         </div>
-        <div id="teacherLeaderboardList" class="space-y-2 mb-3"></div>
+        <div id="teacherLeaderboardList" class="space-y-2 mb-3 max-h-[55vh] overflow-y-auto pr-1"></div>
       </div>
     </section>
 
@@ -569,6 +578,7 @@
       </div>
       <h2 class="text-2xl sm:text-3xl font-black text-white mb-6">พิธีประกาศเกียรติคุณ & สรุปบทเรียน</h2>
       <div id="teacherPodiumContainer" class="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"></div>
+      <div id="teacherRemainingRanksContainer" class="hidden w-full mb-6"></div>
       
       <div class="w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 text-left mb-6 shadow-2xl">
         <h3 class="font-extrabold text-base text-white mb-3">💡 3 บทเรียนทองคำที่คุณครูฝากให้นักเรียน ม.2</h3>
@@ -1196,11 +1206,20 @@
       { name: "กลุ่ม 3 (มังกรสร้างตัว)", avatar: "🐉", color: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/40" },
       { name: "กลุ่ม 4 (สิงโตเจ้าปัญญา)", avatar: "🦁", color: "from-purple-500/20 to-purple-600/10 border-purple-500/40" },
       { name: "กลุ่ม 5 (หมาป่านักล่า)", avatar: "🐺", color: "from-rose-500/20 to-rose-600/10 border-rose-500/40" },
-      { name: "กลุ่ม 6 (หมีขาวสายชิล)", avatar: "🐻‍❄️", color: "from-teal-500/20 to-teal-600/10 border-teal-500/40" }
+      { name: "กลุ่ม 6 (หมีขาวสายชิล)", avatar: "🐻‍❄️", color: "from-teal-500/20 to-teal-600/10 border-teal-500/40" },
+      { name: "กลุ่ม 7 (จิ้งจอกนักคิด)", avatar: "🦊", color: "from-orange-500/20 to-orange-600/10 border-orange-500/40" },
+      { name: "กลุ่ม 8 (ฉลามการเงิน)", avatar: "🦈", color: "from-cyan-500/20 to-cyan-600/10 border-cyan-500/40" },
+      { name: "กลุ่ม 9 (กระทิงเปลวไฟ)", avatar: "🐂", color: "from-red-500/20 to-red-600/10 border-red-500/40" },
+      { name: "กลุ่ม 10 (ฟีนิกซ์มั่งคั่ง)", avatar: "🦚", color: "from-yellow-500/20 to-yellow-600/10 border-yellow-500/40" },
+      { name: "กลุ่ม 11 (เต่าทองทบต้น)", avatar: "🐢", color: "from-lime-500/20 to-lime-600/10 border-lime-500/40" },
+      { name: "กลุ่ม 12 (ช้างศึกมหาเศรษฐี)", avatar: "🐘", color: "from-fuchsia-500/20 to-fuchsia-600/10 border-fuchsia-500/40" }
     ];
 
     function setTeacherTeamCount(n) {
       teacherTeamCount = n;
+      const badge = document.getElementById('teacherTeamCountBadge');
+      if (badge) badge.textContent = `${n} กลุ่ม`;
+
       document.querySelectorAll('.teacher-team-btn').forEach((btn, idx) => {
         if (idx + 2 === n) {
           btn.classList.add('border-amber-400', 'text-amber-400');
@@ -1587,6 +1606,35 @@
         `;
         podEl.appendChild(card);
       });
+
+      const remEl = document.getElementById('teacherRemainingRanksContainer');
+      if (sorted.length > 3) {
+        remEl.classList.remove('hidden');
+        let html = `
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 text-left shadow-xl">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">🏅 อันดับที่ 4 เป็นต้นไป:</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+        `;
+        sorted.slice(3).forEach((t, idx) => {
+          const rank = idx + 4;
+          const net = t.cash + t.savings + t.investments - t.debt;
+          html += `
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs">
+              <div class="flex items-center gap-2 truncate">
+                <span class="font-bold text-slate-500 w-6">#${rank}</span>
+                <span class="text-lg">${t.avatar}</span>
+                <span class="text-white truncate font-medium">${t.name}</span>
+              </div>
+              <span class="font-bold text-amber-400 ml-2 whitespace-nowrap">${formatMoney(net)}</span>
+            </div>
+          `;
+        });
+        html += `</div></div>`;
+        remEl.innerHTML = html;
+      } else {
+        remEl.classList.add('hidden');
+        remEl.innerHTML = '';
+      }
 
       triggerConfetti();
       soundFanfare();
